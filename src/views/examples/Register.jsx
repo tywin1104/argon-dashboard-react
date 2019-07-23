@@ -34,6 +34,46 @@ import {
 } from "reactstrap";
 
 class Register extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      email : '',
+      password: ''
+    };
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    fetch('/api/register', {
+      method: 'POST',
+      body: JSON.stringify(this.state),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      if (res.status === 200) {
+        alert("Register successful! Please log in to proceed.")
+        this.props.history.push('/auth/login');
+      } else {
+        const error = new Error(res.error);
+        throw error;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Unable to register. Please try again');
+    });
+  }
+
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+
   render() {
     return (
       <>
@@ -45,17 +85,7 @@ class Register extends React.Component {
               <div className="text-center text-muted mb-4">
                 <small>Sign up with credentials</small>
               </div>
-              <Form role="form">
-                <FormGroup>
-                  <InputGroup className="input-group-alternative mb-3">
-                    <InputGroupAddon addonType="prepend">
-                      <InputGroupText>
-                        <i className="ni ni-hat-3" />
-                      </InputGroupText>
-                    </InputGroupAddon>
-                    <Input placeholder="Name" type="text" />
-                  </InputGroup>
-                </FormGroup>
+              <Form role="form" onSubmit={this.onSubmit}>
                 <FormGroup>
                   <InputGroup className="input-group-alternative mb-3">
                     <InputGroupAddon addonType="prepend">
@@ -63,7 +93,14 @@ class Register extends React.Component {
                         <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Email" type="email" />
+                    <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                    value={this.state.email}
+                    onChange={this.handleInputChange}
+                    required
+                  />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -73,15 +110,16 @@ class Register extends React.Component {
                         <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Password" type="password" />
+                    <input
+                      type="password"
+                      name="password"
+                      placeholder="Enter password"
+                      value={this.state.password}
+                      onChange={this.handleInputChange}
+                      required
+                   />
                   </InputGroup>
                 </FormGroup>
-                <div className="text-muted font-italic">
-                  <small>
-                    password strength:{" "}
-                    <span className="text-success font-weight-700">strong</span>
-                  </small>
-                </div>
                 <Row className="my-4">
                   <Col xs="12">
                     <div className="custom-control custom-control-alternative custom-checkbox">
@@ -90,22 +128,11 @@ class Register extends React.Component {
                         id="customCheckRegister"
                         type="checkbox"
                       />
-                      <label
-                        className="custom-control-label"
-                        htmlFor="customCheckRegister"
-                      >
-                        <span className="text-muted">
-                          I agree with the{" "}
-                          <a href="#pablo" onClick={e => e.preventDefault()}>
-                            Privacy Policy
-                          </a>
-                        </span>
-                      </label>
                     </div>
                   </Col>
                 </Row>
                 <div className="text-center">
-                  <Button className="mt-4" color="primary" type="button">
+                  <Button className="mt-4" color="primary" type="submit">
                     Create account
                   </Button>
                 </div>
