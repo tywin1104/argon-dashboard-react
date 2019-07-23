@@ -25,13 +25,66 @@ import AdminFooter from "components/Footers/AdminFooter.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 
 import routes from "routes.js";
+import Cookies from 'js-cookie';
+import axios from 'axios'
 
 class Admin extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      email : 'Guest'
+    };
+  }
+
+
+  componentWillMount() {
+    let token = Cookies.get('token')
+    if (token === undefined) {
+      console.log("No JWT token found")
+      return
+    }else {
+      console.log(token)
+
+      axios.get(`http://localhost:8081/checkToken?token=${token}`)
+        .then(res => {
+          if (res.status === 200) {
+            const data = res.data
+            console.log(data)
+            this.setState({ email: data.email });
+          }else {
+            console.log(res.error)
+            const error = new Error(res.error);
+            throw error;
+          }
+        }).catch(err => {
+            this.setState({email: "Guest"});
+        })
+    }
+  }
+
   componentDidUpdate(e) {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
     this.refs.mainContent.scrollTop = 0;
   }
+
+  getLoggedInRoutes = () => {
+    let newRoutes = routes.filter(function (el) {
+      return el.name != 'Login' &&
+             el.name != 'Register'
+    });
+    return newRoutes
+  }
+
+
+  getProperRoutes = () => {
+    if(this.state.email !== 'Guest') {
+      return this.getLoggedInRoutes()
+    }else {
+      return routes
+    }
+  }
+
   getRoutes = routes => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
@@ -64,7 +117,7 @@ class Admin extends React.Component {
       <>
         <Sidebar
           {...this.props}
-          routes={routes}
+          routes={this.getProperRoutes()}
           logo={{
             innerLink: "/admin/index",
             imgSrc: require("assets/img/brand/argon-react.png"),
@@ -75,6 +128,7 @@ class Admin extends React.Component {
           <AdminNavbar
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
+            email={this.state.email}
           />
           <Switch>{this.getRoutes(routes)}</Switch>
           <Container fluid>
