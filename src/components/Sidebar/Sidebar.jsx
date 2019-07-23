@@ -200,11 +200,11 @@ class Sidebar extends React.Component {
                   <Col className="collapse-brand" xs="6">
                     {logo.innerLink ? (
                       <Link to={logo.innerLink}>
-                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                        <img className="img-fluid" alt={logo.imgAlt} src={logo.imgSrc} />
                       </Link>
                     ) : (
                       <a href={logo.outterLink}>
-                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                        <img className="img-fluid" alt={logo.imgAlt} src={logo.imgSrc} />
                       </a>
                     )}
                   </Col>

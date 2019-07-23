@@ -34,8 +34,40 @@ import {
   Container,
   Media
 } from "reactstrap";
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 class AdminNavbar extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      email : 'haha'
+    };
+  }
+
+
+  componentWillMount() {
+    let token = Cookies.get('token')
+    console.log(token)
+
+    axios.get(`http://localhost:8081/checkToken?token=${token}`)
+      .then(res => {
+        if (res.status === 200) {
+          const data = res.data
+          console.log(data)
+          this.setState({ email: data.email });
+        }else {
+          console.log(res.error)
+          const error = new Error(res.error);
+          throw error;
+        }
+      }).catch(err => {
+          this.setState({email: "Guest"});
+      })
+  }
+
+
+
   render() {
     return (
       <>
@@ -71,7 +103,8 @@ class AdminNavbar extends React.Component {
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
                       <span className="mb-0 text-sm font-weight-bold">
-                        Jessica Jones
+                        {/* Jessica Jones */}
+                        {this.state.email}
                       </span>
                     </Media>
                   </Media>
