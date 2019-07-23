@@ -16,7 +16,8 @@
 
 */
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+
 // reactstrap components
 import {
   DropdownMenu,
@@ -36,36 +37,48 @@ import {
 } from "reactstrap";
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { browserHistory } from 'react-router';
 
 class AdminNavbar extends React.Component {
   constructor() {
     super();
     this.state = {
-      email : 'haha'
+      email : 'Guest'
     };
   }
 
 
   componentWillMount() {
     let token = Cookies.get('token')
-    console.log(token)
+    if (token === undefined) {
+      console.log("No JWT token found")
+      return
+    }else {
+      console.log(token)
 
-    axios.get(`http://localhost:8081/checkToken?token=${token}`)
-      .then(res => {
-        if (res.status === 200) {
-          const data = res.data
-          console.log(data)
-          this.setState({ email: data.email });
-        }else {
-          console.log(res.error)
-          const error = new Error(res.error);
-          throw error;
-        }
-      }).catch(err => {
-          this.setState({email: "Guest"});
-      })
+      axios.get(`http://localhost:8081/checkToken?token=${token}`)
+        .then(res => {
+          if (res.status === 200) {
+            const data = res.data
+            console.log(data)
+            this.setState({ email: data.email });
+          }else {
+            console.log(res.error)
+            const error = new Error(res.error);
+            throw error;
+          }
+        }).catch(err => {
+            this.setState({email: "Guest"});
+        })
+    }
   }
 
+
+
+  logout = () => {
+    Cookies.remove('token');
+    this.props.history.push('/auth/login')
+  }
 
 
   render() {
@@ -130,9 +143,9 @@ class AdminNavbar extends React.Component {
                     <span>Support</span>
                   </DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                  <DropdownItem href="#pablo" onClick={this.logout}>
                     <i className="ni ni-user-run" />
-                    <span>Logout</span>
+                    <span >Logout</span>
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>

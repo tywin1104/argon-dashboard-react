@@ -33,6 +33,8 @@ import {
   Col
 } from "reactstrap";
 
+import axios from 'axios';
+
 class Login extends React.Component {
 
   constructor(props) {
@@ -45,7 +47,7 @@ class Login extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('http://localhost:8081/api/authenticate', {
+    fetch('/api/authenticate', {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {
@@ -54,8 +56,6 @@ class Login extends React.Component {
     })
     .then(res => {
       if (res.status === 200) {
-        console.log(res.headers.get('set-cookie')); // undefined
-        console.log(document.cookie); // nope
         this.props.history.push('/');
       } else {
         const error = new Error(res.error);
