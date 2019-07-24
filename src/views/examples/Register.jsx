@@ -25,12 +25,12 @@ import {
   CardBody,
   FormGroup,
   Form,
-  Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
   Row,
-  Col
+  Col,
+  Input
 } from "reactstrap";
 
 class Register extends React.Component {
@@ -79,8 +79,6 @@ class Register extends React.Component {
       <>
         <Col lg="6" md="8">
           <Card className="bg-secondary shadow border-0">
-            <CardHeader className="bg-transparent pb-5">
-            </CardHeader>
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
                 <small>Sign up with credentials</small>
@@ -93,14 +91,13 @@ class Register extends React.Component {
                         <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter email"
-                    value={this.state.email}
-                    onChange={this.handleInputChange}
-                    required
-                  />
+                    <Input
+                      type="email"
+                      name="email"
+                      placeholder="Enter email"
+                      value={this.state.email}
+                      onChange={this.handleInputChange}
+                      required />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -110,14 +107,12 @@ class Register extends React.Component {
                         <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <input
-                      type="password"
+                    <Input type="password"
                       name="password"
                       placeholder="Enter password"
                       value={this.state.password}
                       onChange={this.handleInputChange}
-                      required
-                   />
+                      required />
                   </InputGroup>
                 </FormGroup>
                 <Row className="my-4">

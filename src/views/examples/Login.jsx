@@ -25,15 +25,14 @@ import {
   CardBody,
   FormGroup,
   Form,
-  Input,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
   Row,
-  Col
+  Col,
+  Input
 } from "reactstrap";
 
-import axios from 'axios';
 
 class Login extends React.Component {
 
@@ -92,14 +91,13 @@ class Login extends React.Component {
                         <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter email"
-                    value={this.state.email}
-                    onChange={this.handleInputChange}
-                    required
-                  />
+                  <Input
+                      type="email"
+                      name="email"
+                      placeholder="Enter email"
+                      value={this.state.email}
+                      onChange={this.handleInputChange}
+                      required />
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -109,14 +107,12 @@ class Login extends React.Component {
                         <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
-                  <input
-                      type="password"
+                    <Input type="password"
                       name="password"
                       placeholder="Enter password"
                       value={this.state.password}
                       onChange={this.handleInputChange}
-                      required
-                   />
+                      required />
                   </InputGroup>
                 </FormGroup>
                 <div className="custom-control custom-control-alternative custom-checkbox">
