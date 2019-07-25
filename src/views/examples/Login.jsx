@@ -46,7 +46,7 @@ class Login extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('/api/authenticate', {
+    fetch('/api/auth/authenticate', {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {
@@ -56,15 +56,16 @@ class Login extends React.Component {
     .then(res => {
       if (res.status === 200) {
         this.props.history.push('/');
-      } else {
-        const error = new Error(res.error);
+      } else if(res.status === 401) {
+        const error = new Error("Wrong credentials");
         throw error;
       }
     })
     .catch(err => {
       console.error(err);
-      alert('Error logging in please try again');
+      alert('Wrong credientials. Please try again.');
     });
+
   }
 
   handleInputChange = (event) => {
@@ -115,19 +116,6 @@ class Login extends React.Component {
                       required />
                   </InputGroup>
                 </FormGroup>
-                <div className="custom-control custom-control-alternative custom-checkbox">
-                  <input
-                    className="custom-control-input"
-                    id=" customCheckLogin"
-                    type="checkbox"
-                  />
-                  <label
-                    className="custom-control-label"
-                    htmlFor=" customCheckLogin"
-                  >
-                    <span className="text-muted">Remember me</span>
-                  </label>
-                </div>
                 <div className="text-center">
                   <Button className="my-4" color="primary" type="submit">
                     Sign in

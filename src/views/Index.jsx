@@ -35,7 +35,8 @@ import {
   Table,
   Container,
   Row,
-  Col
+  Col,
+  Alert
 } from "reactstrap";
 
 // core components
@@ -78,6 +79,9 @@ class Index extends React.Component {
         <Header />
         {/* Page content */}
         <Container className="mt--7" fluid>
+          <Alert color="primary">
+            <h3>This is a sample announcement! Check it out!</h3>
+          </Alert>
           <Row>
             <Col className="mb-5 mb-xl-0" xl="8">
               <Card className="bg-gradient-default shadow">

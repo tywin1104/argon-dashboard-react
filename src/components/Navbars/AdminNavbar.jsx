@@ -79,8 +79,7 @@ class AdminNavbar extends React.Component {
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
                       <span className="mb-0 text-sm font-weight-bold">
-                        {/* Jessica Jones */}
-                        {this.props.email}
+                        {this.props.name}
                       </span>
                     </Media>
                   </Media>

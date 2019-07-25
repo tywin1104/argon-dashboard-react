@@ -21,7 +21,6 @@ import React from "react";
 import {
   Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -39,13 +38,14 @@ class Register extends React.Component {
     super(props)
     this.state = {
       email : '',
-      password: ''
+      password: '',
+      name: ''
     };
   }
 
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('/api/register', {
+    fetch('/api/auth/register', {
       method: 'POST',
       body: JSON.stringify(this.state),
       headers: {
@@ -84,6 +84,21 @@ class Register extends React.Component {
                 <small>Sign up with credentials</small>
               </div>
               <Form role="form" onSubmit={this.onSubmit}>
+              <FormGroup>
+                  <InputGroup className="input-group-alternative">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="ni ni-lock-circle-open" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      name="name"
+                      placeholder="Name"
+                      value={this.state.name}
+                      onChange={this.handleInputChange}
+                      required />
+                  </InputGroup>
+                </FormGroup>
                 <FormGroup>
                   <InputGroup className="input-group-alternative mb-3">
                     <InputGroupAddon addonType="prepend">

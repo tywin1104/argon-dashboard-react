@@ -32,10 +32,10 @@ class Admin extends React.Component {
   constructor() {
     super();
     this.state = {
-      email : 'Guest'
+      email : '',
+      name: 'Guest'
     };
   }
-
 
   componentWillMount() {
     let token = Cookies.get('token')
@@ -45,19 +45,19 @@ class Admin extends React.Component {
     }else {
       console.log(token)
 
-      axios.get(`http://localhost:8081/checkToken?token=${token}`)
+      axios.get(`/api/auth/checkToken?token=${token}`)
         .then(res => {
           if (res.status === 200) {
             const data = res.data
             console.log(data)
-            this.setState({ email: data.email });
+            this.setState({ email: data.email, name: data.name});
           }else {
             console.log(res.error)
             const error = new Error(res.error);
             throw error;
           }
         }).catch(err => {
-            this.setState({email: "Guest"});
+            console.log(err)
         })
     }
   }
@@ -77,6 +77,7 @@ class Admin extends React.Component {
   }
 
 
+  // Get proper contents on sidebar based on whether logged in
   getProperRoutes = () => {
     if(this.state.email !== 'Guest') {
       return this.getLoggedInRoutes()
@@ -129,6 +130,7 @@ class Admin extends React.Component {
             {...this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
             email={this.state.email}
+            name={this.state.name}
           />
           <Switch>{this.getRoutes(routes)}</Switch>
           <Container fluid>
