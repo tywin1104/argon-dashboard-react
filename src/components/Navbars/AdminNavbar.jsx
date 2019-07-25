@@ -68,6 +68,7 @@ class AdminNavbar extends React.Component {
               </FormGroup>
             </Form>
             <Nav className="align-items-center d-none d-md-flex" navbar>
+              {this.props.name !== "Guest" &&
               <UncontrolledDropdown nav>
                 <DropdownToggle className="pr-0" nav>
                   <Media className="align-items-center">
@@ -111,6 +112,7 @@ class AdminNavbar extends React.Component {
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
+              }
             </Nav>
           </Container>
         </Navbar>

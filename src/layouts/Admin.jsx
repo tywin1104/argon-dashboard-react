@@ -79,7 +79,7 @@ class Admin extends React.Component {
 
   // Get proper contents on sidebar based on whether logged in
   getProperRoutes = () => {
-    if(this.state.email !== 'Guest') {
+    if(this.state.name !== 'Guest') {
       return this.getLoggedInRoutes()
     }else {
       return routes
