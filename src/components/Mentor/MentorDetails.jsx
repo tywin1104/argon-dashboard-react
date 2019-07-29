@@ -5,12 +5,15 @@ import {
   Row,
   CardHeader,
   CardTitle,
-  CardBody
+  CardBody,
+  Alert
 } from "reactstrap";
 
 import { Button, Comment, Form} from 'semantic-ui-react'
 import Header from "components/Headers/Header.jsx";
 import axios from 'axios'
+import moment from 'moment'
+
 
 class MentorDetails extends React.Component {
   constructor() {
@@ -49,7 +52,7 @@ class MentorDetails extends React.Component {
     event.preventDefault();
     let new_reply = {
       content: this.state.reply_content,
-      username: "testuser"
+      username: this.props.name
     }
     this.setState({reply_content: ''})
     fetch(`/api/posts/${this.state.post_id}/replies`, {
@@ -85,12 +88,17 @@ class MentorDetails extends React.Component {
 
   }
 
+  isLoggedIn() {
+    return this.props.name !== 'Guest'
+  }
+
   render() {
+    const isLoggedIn = this.isLoggedIn()
     if(this.state.post === null){
       return null; //Or some other replacement component or markup
     }
     // console.log("The current post state: ")
-    // console.log(this.state.post)
+    console.log(this.state.post)
     let replies = this.state.post.replies
     // console.log(replies)
     let comments = replies.map((reply)=> {
@@ -100,7 +108,7 @@ class MentorDetails extends React.Component {
       <Comment.Content>
         <Comment.Author>{reply.username}</Comment.Author>
         <Comment.Metadata>
-          <div>{reply.timestamp}</div>
+          <div>{ moment.parseZone(reply.timestamp).local().fromNow()}</div>
         </Comment.Metadata>
         <Comment.Text>
           {reply.content}
@@ -128,6 +136,9 @@ class MentorDetails extends React.Component {
             <CardHeader tag="h1">{this.state.post.title}</CardHeader>
             <CardBody>
               <CardTitle tag="h3">{this.state.post.content}</CardTitle>
+              <Comment.Metadata>
+                <div>{ moment.parseZone(this.state.post.timestamp).local().fromNow()}</div>
+              </Comment.Metadata>
               <Comment.Group size='large'>
                   {comments}
                   <Form reply onSubmit={this.onSubmit}>
@@ -137,7 +148,10 @@ class MentorDetails extends React.Component {
                       value={this.state.reply_content}
                       onChange={this.handleInputChange}
                       required/>
-                    <Button content='Add Comment' primary />
+                      <Alert style={isLoggedIn ? {display: 'none'} : {}} color="dark">
+                      You have to login in order to submit replies
+                      </Alert>
+                    <Button disabled={!isLoggedIn} content='Add Comment'  primary />
                   </Form>
                 </Comment.Group>
             </CardBody>

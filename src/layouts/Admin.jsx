@@ -95,7 +95,8 @@ class Admin extends React.Component {
         return (
           <Route
             path={prop.layout + prop.path}
-            component={prop.component}
+            // component={prop.component}
+            render={(props) => <prop.component  email={this.state.email} name={this.state.name} {...props} />}
             key={key}
           />
         );
