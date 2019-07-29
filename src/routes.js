@@ -53,10 +53,17 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/tables",
-    name: "Discussions",
+    path: "/mentor",
+    name: "Mentor",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
+    layout: "/admin"
+  },
+  {
+    path: "/mentor/:id",
+    name: "MentorDetail",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: Icons,
     layout: "/admin"
   },
   {
