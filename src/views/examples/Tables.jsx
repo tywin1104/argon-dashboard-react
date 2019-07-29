@@ -30,6 +30,7 @@ import {
   Table,
   Container,
   Row,
+  Button
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.jsx";
@@ -123,7 +124,8 @@ class Tables extends React.Component {
             <div className="col">
               <Card className="shadow">
                 <CardHeader className="border-0">
-                  <h3 className="mb-0">Card tables</h3>
+                  <h3 className="mb-0">Posts</h3>
+                  {/* <Button color="primary">Add new post</Button> */}
                 </CardHeader>
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
