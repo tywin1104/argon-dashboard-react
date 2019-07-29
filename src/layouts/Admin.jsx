@@ -72,7 +72,7 @@ class Admin extends React.Component {
     let newRoutes = routes.filter(function (el) {
       return el.name !== 'Login' &&
              el.name !== 'Register' &&
-             el.name !== 'MentorDetail'
+             el.name !== 'MentorDetails'
     });
     return newRoutes
   }
@@ -83,8 +83,8 @@ class Admin extends React.Component {
     if(this.state.name !== 'Guest') {
       return this.getLoggedInRoutes()
     }else {
-      return routes.filter((el)=> {
-        return el.name !== 'MentorDetail'
+      return routes.filter(function(el) {
+        return el.name !== 'MentorDetails'
       })
     }
   }
