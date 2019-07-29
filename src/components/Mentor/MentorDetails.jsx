@@ -1,23 +1,4 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React from "react";
-// react component that copies the given text inside your clipboard
-// reactstrap components
 import {
   Card,
   Container,
@@ -27,8 +8,7 @@ import {
   CardBody
 } from "reactstrap";
 
-import { Button, Comment, Form, Message } from 'semantic-ui-react'
-// core components
+import { Button, Comment, Form} from 'semantic-ui-react'
 import Header from "components/Headers/Header.jsx";
 import axios from 'axios'
 
@@ -36,21 +16,18 @@ class MentorDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      post: {}
+      post: null
     };
   }
 
   componentWillMount() {
     let paths = this.props.location.pathname.split("/")
     let post_id = paths[paths.length-1]
-    console.log(post_id)
     axios.get(`/api/posts/${post_id}`)
       .then(res => {
         if (res.status === 200) {
           const data = res.data
-          console.log('Got this post: ')
-          console.log(data)
-          this.setState({ post: data});
+          this.setState({ post: data.post});
         }else {
           console.log("Unable to get this post by id")
         }
@@ -58,6 +35,38 @@ class MentorDetails extends React.Component {
   }
 
   render() {
+    if(this.state.post === null){
+      return null; //Or some other replacement component or markup
+    }
+    // console.log("The current post state: ")
+    // console.log(this.state.post)
+    let replies = this.state.post.replies
+    // console.log(replies)
+    let comments = replies.map((reply)=> {
+    return (
+      <Comment>
+      <Comment.Avatar as='a' src='/images/avatar/small/joe.jpg' />
+      <Comment.Content>
+        <Comment.Author>{reply.username}</Comment.Author>
+        <Comment.Metadata>
+          <div>{reply.timestamp}</div>
+        </Comment.Metadata>
+        <Comment.Text>
+          {reply.content}
+        </Comment.Text>
+        <Comment.Actions>
+          <Comment.Action>
+            <div>
+              <i className=" ni ni-like-2" />
+              <span>Like</span>
+            </div>
+          </Comment.Action>
+        </Comment.Actions>
+      </Comment.Content>
+    </Comment>
+    )
+  })
+
     return (
       <>
         <Header />
@@ -68,54 +77,8 @@ class MentorDetails extends React.Component {
             <CardHeader tag="h1">{this.state.post.title}</CardHeader>
             <CardBody>
               <CardTitle tag="h3">{this.state.post.content}</CardTitle>
-              <Comment.Group>
-                  <Comment>
-                    <Comment.Avatar as='a' src='/images/avatar/small/joe.jpg' />
-                    <Comment.Content>
-                      <Comment.Author>Joe Henderson</Comment.Author>
-                      <Comment.Metadata>
-                        <div>1 day ago</div>
-                      </Comment.Metadata>
-                      <Comment.Text>
-                        <p>
-                          The hours, minutes and seconds stand as visible reminders that your effort put them all
-                          there.
-                        </p>
-                        <p>
-                          Preserve until your next run, when the watch lets you see how Impermanent your efforts
-                          are.
-                        </p>
-                      </Comment.Text>
-                      <Comment.Actions>
-                        <Comment.Action>
-                          <div>
-                            <i className=" ni ni-like-2" />
-                            <span>Like</span>
-                          </div>
-                        </Comment.Action>
-                      </Comment.Actions>
-                    </Comment.Content>
-                  </Comment>
-
-                  <Comment>
-                    <Comment.Avatar as='a' src='/images/avatar/small/christian.jpg' />
-                    <Comment.Content>
-                      <Comment.Author>Christian Rocha</Comment.Author>
-                      <Comment.Metadata>
-                        <div>2 days ago</div>
-                      </Comment.Metadata>
-                      <Comment.Text>I re-tweeted this.</Comment.Text>
-                      <Comment.Actions>
-                        <Comment.Action>
-                          <div>
-                            <i className=" ni ni-like-2" />
-                            <span>Like</span>
-                          </div>
-                        </Comment.Action>
-                      </Comment.Actions>
-                    </Comment.Content>
-                  </Comment>
-
+              <Comment.Group size='large'>
+                  {comments}
                   <Form reply>
                     <Form.TextArea />
                     <Button content='Add Comment' primary />
