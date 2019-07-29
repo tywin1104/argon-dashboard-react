@@ -16,13 +16,17 @@ class MentorDetails extends React.Component {
   constructor() {
     super();
     this.state = {
-      post: null
+      reply_content: '',
+      post: null,
+      post_id: ''
     };
   }
 
   componentWillMount() {
     let paths = this.props.location.pathname.split("/")
     let post_id = paths[paths.length-1]
+    this.setState({ post_id })
+
     axios.get(`/api/posts/${post_id}`)
       .then(res => {
         if (res.status === 200) {
@@ -32,6 +36,53 @@ class MentorDetails extends React.Component {
           console.log("Unable to get this post by id")
         }
       })
+  }
+
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    let new_reply = {
+      content: this.state.reply_content,
+      username: "testuser"
+    }
+    this.setState({reply_content: ''})
+    fetch(`/api/posts/${this.state.post_id}/replies`, {
+      method: 'POST',
+      body: JSON.stringify({
+        replies: [new_reply]
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      if (res.status === 200) {
+        // TODO: simplify
+        axios.get(`/api/posts/${this.state.post_id}`)
+        .then(res => {
+        if (res.status === 200) {
+          const data = res.data
+          this.setState({ post: data.post});
+        }else {
+          console.log("Unable to get this post by id")
+        }
+      })
+      } else {
+        const error = new Error("");
+        throw error;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Unable to submit reply. Please try again');
+    });
+
   }
 
   render() {
@@ -79,8 +130,13 @@ class MentorDetails extends React.Component {
               <CardTitle tag="h3">{this.state.post.content}</CardTitle>
               <Comment.Group size='large'>
                   {comments}
-                  <Form reply>
-                    <Form.TextArea />
+                  <Form reply onSubmit={this.onSubmit}>
+                    <Form.TextArea
+                      name="reply_content"
+                      placeholder="Enter text to reply to this post"
+                      value={this.state.reply_content}
+                      onChange={this.handleInputChange}
+                      required/>
                     <Button content='Add Comment' primary />
                   </Form>
                 </Comment.Group>
