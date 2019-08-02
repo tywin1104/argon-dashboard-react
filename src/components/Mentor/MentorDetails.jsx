@@ -172,13 +172,11 @@ class MentorDetails extends React.Component {
           <Row>
             <Card body>
             <CardHeader className="text-primary" style={{fontSize: '200%'}}>{this.state.post.title}</CardHeader>
+            Created By {this.state.post.username} { moment.parseZone(this.state.post.timestamp).local().fromNow()}
             <CardBody >
               <div>
                 <CardTitle style={{fontSize: '130%', marginRight: '25%', lineHeight: '1.5'}} >{this.state.post.content}</CardTitle>
               </div>
-              <Comment.Metadata>
-                <div>{ moment.parseZone(this.state.post.timestamp).local().fromNow()}</div>
-              </Comment.Metadata>
               <Comment.Group size='large'>
                   {comments}
                   <Form reply onSubmit={this.onSubmit}>

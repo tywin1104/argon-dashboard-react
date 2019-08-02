@@ -97,6 +97,27 @@ class Tables extends React.Component {
       })
   }
 
+  removeOnClick(post_id) {
+    axios.delete(`/api/posts/${post_id}`)
+      .then(res => {
+            //TODO: Simplify after successful delete
+            if (res.status === 200) {
+              axios.get(`/api/posts/`)
+                .then(res => {
+                if (res.status === 200) {
+                  const data = res.data
+                  this.setState({ posts: data.posts});
+                }else {
+                  console.log("Unable to get posts")
+                }
+              })
+        }else {
+          console.log("Unable to delete this post")
+        }
+      })
+  }
+
+
   componentWillMount() {
     axios.get(`/api/posts/`)
       .then(res => {
@@ -112,7 +133,9 @@ class Tables extends React.Component {
   }
   render() {
     let posts = this.state.posts
+    const isLoggedIn = this.props.name !== 'Guest'
     let table_rows = posts.map((post)=> {
+      let isSameUser = (post.username === this.props.name) && this.props.name !== 'Guest'
       return (
           <tr>
           <th scope="row">
@@ -158,11 +181,10 @@ class Tables extends React.Component {
               <DropdownMenu className="dropdown-menu-arrow" right>
                 <DropdownItem
                 >
-                {/* <Link
-                  to={{ pathname: '/admin/mentor/'+post._id}}
-                  key={post._id}>
-                  Check Details
-                 </Link> */}
+                  <a style={!isSameUser ? {display: 'none'} : {}} className="text-danger" onClick={()=>this.removeOnClick(post._id)}>Remove</a>
+                </DropdownItem>
+                <DropdownItem>
+                  <a style={!isSameUser ? {display: 'none'} : {}} className="text-info">Mark as resolved</a>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -182,7 +204,7 @@ class Tables extends React.Component {
                 <CardHeader className="border-0">
                     <h3 className="mb-0">Posts</h3>
                     <div>
-                      <Button color="primary" onClick={this.toggle}>Add new post</Button>
+                      <Button disabled={!isLoggedIn} color="primary" onClick={this.toggle}>Add new post</Button>
                       <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                         <ModalHeader toggle={this.toggle}>Submit a new post</ModalHeader>
                         <ModalBody>
