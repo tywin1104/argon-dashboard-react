@@ -65,7 +65,6 @@ class Login extends React.Component {
       console.error(err);
       alert('Wrong credientials. Please try again.');
     });
-
   }
 
   handleInputChange = (event) => {

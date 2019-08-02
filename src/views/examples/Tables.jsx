@@ -30,19 +30,71 @@ import {
   Table,
   Container,
   Row,
-  Button
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form, FormGroup, Label, Input
 } from "reactstrap";
 // core components
 import Header from "components/Headers/Header.jsx";
 import axios from 'axios'
 import {Link} from 'react-router-dom'
 
+
 class Tables extends React.Component {
   constructor() {
     super();
     this.state = {
-      posts: []
+      posts: [],
+      modal: false,
+      new_post_title: '',
+      new_post_content: ''
     };
+    this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState(prevState => ({
+      modal: !prevState.modal
+    }));
+  }
+
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    axios.post(`/api/posts/`, {
+      username: this.props.name,
+      title: this.state.new_post_title,
+      content: this.state.new_post_content
+    })
+    .then(res => {
+      if (res.status === 200) {
+        console.log("added new post")
+      } else {
+        alert("Unable to add a new post. Please try again")
+      }
+    })
+    this.toggle()
+    // TODO: Simplify
+    axios.get(`/api/posts/`)
+      .then(res => {
+        if (res.status === 200) {
+          const data = res.data
+          console.log('Got all posts:')
+          console.log(data)
+          this.setState({ posts: data.posts});
+        }else {
+          console.log("Unable to get all posts")
+        }
+      })
   }
 
   componentWillMount() {
@@ -128,8 +180,29 @@ class Tables extends React.Component {
             <div className="col">
               <Card className="shadow">
                 <CardHeader className="border-0">
-                  <h3 className="mb-0">Posts</h3>
-                  {/* <Button color="primary">Add new post</Button> */}
+                    <h3 className="mb-0">Posts</h3>
+                    <div>
+                      <Button color="primary" onClick={this.toggle}>Add new post</Button>
+                      <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                        <ModalHeader toggle={this.toggle}>Submit a new post</ModalHeader>
+                        <ModalBody>
+                          <Form role="form" onSubmit={this.onSubmit}>
+                            <FormGroup>
+                              <Label for="exampleEmail">Title</Label>
+                              <Input  name="new_post_title"  value={this.state.new_post_title} onChange={this.handleInputChange} required placeholder="Please summarize your question here" />
+                            </FormGroup>
+                            <FormGroup>
+                              <Label for="exampleText">Content</Label>
+                              <Input type="textarea" name="new_post_content" value={this.state.new_post_content} onChange={this.handleInputChange} required placeholder="Please describe your question in detail"/>
+                            </FormGroup>
+                            <ModalFooter>
+                              <Button color="primary" type="submit">Post</Button>{' '}
+                              <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                            </ModalFooter>
+                          </Form>
+                        </ModalBody>
+                      </Modal>
+                    </div>
                 </CardHeader>
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
