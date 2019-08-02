@@ -68,7 +68,11 @@ class Tables extends React.Component {
               <i className=" ni ni-align-left-2" />
               <Media>
                 <span className="mb-0 text-sm">
-                  {post.title}
+                  <Link
+                  to={{ pathname: '/admin/mentor/'+post._id}}
+                  key={post._id}>
+                    {post.title}
+                 </Link>
                 </span>
               </Media>
             </Media>
@@ -102,11 +106,11 @@ class Tables extends React.Component {
               <DropdownMenu className="dropdown-menu-arrow" right>
                 <DropdownItem
                 >
-                <Link
+                {/* <Link
                   to={{ pathname: '/admin/mentor/'+post._id}}
                   key={post._id}>
                   Check Details
-                 </Link>
+                 </Link> */}
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

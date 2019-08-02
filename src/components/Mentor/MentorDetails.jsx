@@ -72,20 +72,35 @@ class MentorDetails extends React.Component {
         if (res.status === 200) {
           const data = res.data
           this.setState({ post: data.post});
-        }else {
-          console.log("Unable to get this post by id")
         }
+        // Increment point for user
+        this.changeUserPoints(1)
       })
       } else {
-        const error = new Error("");
-        throw error;
+        alert('Unable to submit reply. Please try again');
       }
     })
-    .catch(err => {
-      console.error(err);
-      alert('Unable to submit reply. Please try again');
-    });
+  }
 
+  changeUserPoints(delta) {
+    let user_name = this.props.name
+    axios.get(`/api/users/?name=${user_name}`)
+      .then(res => {
+        if(res.status === 200) {
+          let users = res.data.users
+          if(users) {
+            let user_found = users[0]
+            let user_id = user_found._id
+            let new_points = user_found.points + delta
+            axios.patch(`/api/users/${user_id}`, {points: new_points}, {})
+              .then(res => {
+                if(res.status === 200 ) {
+                  console.log(`Successfully increment points of user: ${user_name} by ${delta}`)
+                }
+              })
+          }
+        }
+      })
   }
 
   isLoggedIn() {
@@ -97,6 +112,7 @@ class MentorDetails extends React.Component {
       .then(res => {
             //TODO: Simplify after successful delete
             if (res.status === 200) {
+              this.changeUserPoints(-1)
               axios.get(`/api/posts/${this.state.post_id}`)
             .then(res => {
             if (res.status === 200) {
@@ -118,7 +134,7 @@ class MentorDetails extends React.Component {
       return null; //Or some other replacement component or markup
     }
     // console.log("The current post state: ")
-    console.log(this.state.post)
+    // console.log(this.state.post)
     let replies = this.state.post.replies
     // console.log(replies)
     let comments = replies.map((reply)=> {
@@ -136,7 +152,7 @@ class MentorDetails extends React.Component {
             </Comment.Text>
             <Comment.Actions>
               <Comment.Action>
-                <span style={isSameUser ? {display: 'none'} : {}}>
+                <span style={(isSameUser || !isLoggedIn) ? {display: 'none'} : {}}>
                   <i className=" ni ni-like-2" />
                   <span style={{paddingRight: '10px'}}><a>Like</a></span>
                 </span>
