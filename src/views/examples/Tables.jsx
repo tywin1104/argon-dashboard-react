@@ -168,7 +168,7 @@ class Tables extends React.Component {
           </td>
           <td className="text-right">
             <UncontrolledDropdown>
-              <DropdownToggle
+              <DropdownToggle style={!isSameUser ? {display: 'none'} : {}}
                 className="btn-icon-only text-light"
                 href="#pablo"
                 role="button"
@@ -178,13 +178,12 @@ class Tables extends React.Component {
               >
                 <i className="fas fa-ellipsis-v" />
               </DropdownToggle>
-              <DropdownMenu className="dropdown-menu-arrow" right>
-                <DropdownItem
-                >
-                  <a style={!isSameUser ? {display: 'none'} : {}} className="text-danger" onClick={()=>this.removeOnClick(post._id)}>Remove</a>
+              <DropdownMenu  style={!isSameUser ? {display: 'none'} : {}} className="dropdown-menu-arrow" right>
+                <DropdownItem >
+                  <a  className="text-danger" onClick={()=>this.removeOnClick(post._id)}>Remove</a>
                 </DropdownItem>
                 <DropdownItem>
-                  <a style={!isSameUser ? {display: 'none'} : {}} className="text-info">Mark as resolved</a>
+                  <a  className="text-info">Mark as resolved</a>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
