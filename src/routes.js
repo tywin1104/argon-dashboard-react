@@ -1,18 +1,18 @@
 /*!
 
+
 =========================================================
-* Argon Dashboard React - v1.0.0
+* Mentr Website - v1.0.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+* Copyright 2019 Mentr Team 
 
-* Coded by Creative Tim
+* Coded by Mentr Team
 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
 
 */
 import Index from "views/Index.jsx";
@@ -22,6 +22,7 @@ import Register from "views/examples/Register.jsx";
 import Login from "views/examples/Login.jsx";
 import Tables from "views/examples/Tables.jsx";
 import Icons from "views/examples/Icons.jsx";
+import MentorDetails from "./components/Mentor/MentorDetails.jsx";
 
 var routes = [
   {
@@ -53,12 +54,20 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/tables",
-    name: "Tables",
+    path: "/mentor/:id",
+    name: "MentorDetails",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: MentorDetails,
+    layout: "/admin"
+  },
+  {
+    path: "/mentor",
+    name: "Mentor",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
     layout: "/admin"
   },
+  
   {
     path: "/login",
     name: "Login",

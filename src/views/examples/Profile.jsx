@@ -1,18 +1,17 @@
 /*!
 
 =========================================================
-* Argon Dashboard React - v1.0.0
+* Mentr Website - v1.0.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+* Copyright 2019 Mentr Team 
 
-* Coded by Creative Tim
+* Coded by Mentr Team
 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
 
 */
 import React from "react";
@@ -108,7 +107,7 @@ class Profile extends React.Component {
                     </div>
                     <div className="h5 mt-4">
                       <i className="ni business_briefcase-24 mr-2" />
-                      Solution Manager - Creative Tim Officer
+                      Solution Manager - Placeholder Officer
                     </div>
                     <div>
                       <i className="ni education_hat mr-2" />

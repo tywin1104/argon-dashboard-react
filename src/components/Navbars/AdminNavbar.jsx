@@ -1,22 +1,23 @@
 /*!
 
+
 =========================================================
-* Argon Dashboard React - v1.0.0
+* Mentr Website - v1.0.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+* Copyright 2019 Mentr Team 
 
-* Coded by Creative Tim
+* Coded by Mentr Team
 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
+
 */
 import React from "react";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 // reactstrap components
 import {
   DropdownMenu,
@@ -36,6 +37,13 @@ import {
 } from "reactstrap";
 
 class AdminNavbar extends React.Component {
+
+  logout = () => {
+    Cookies.remove('token');
+    this.props.history.push('/auth/login')
+  }
+
+
   render() {
     return (
       <>
@@ -59,7 +67,8 @@ class AdminNavbar extends React.Component {
                 </InputGroup>
               </FormGroup>
             </Form>
-            <Nav className="align-items-center d-none d-md-flex" navbar>
+            <Nav className="align-it`ems-center d-none d-md-flex" navbar>
+              {this.props.name !== "Guest" && 
               <UncontrolledDropdown nav>
                 <DropdownToggle className="pr-0" nav>
                   <Media className="align-items-center">
@@ -71,7 +80,8 @@ class AdminNavbar extends React.Component {
                     </span>
                     <Media className="ml-2 d-none d-lg-block">
                       <span className="mb-0 text-sm font-weight-bold">
-                        Jessica Jones
+                        
+                        {this.props.name}
                       </span>
                     </Media>
                   </Media>
@@ -97,12 +107,13 @@ class AdminNavbar extends React.Component {
                     <span>Support</span>
                   </DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem href="#pablo" onClick={e => e.preventDefault()}>
+                  <DropdownItem onClick={this.logout} >
                     <i className="ni ni-user-run" />
                     <span>Logout</span>
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
+              }
             </Nav>
           </Container>
         </Navbar>

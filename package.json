@@ -1,12 +1,13 @@
 {
   "name": "argon-dashboard-react",
   "version": "1.0.0",
-  "description": "React version of Argon Dashboard by Creative Tim",
+  "description": "React version of Mentr",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/creativetimofficial/argon-dashboard-react.git"
+    "url": "git+https://github.com"
   },
+  "proxy": "http://localhost:8080",
   "keywords": [
     "react",
     "reactjs",
@@ -17,12 +18,12 @@
     "argon-dashboard",
     "argon-dashboard-react"
   ],
-  "author": "Creative Tim",
+  "author": "Mentr",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/creativetimofficial/argon-dashboard-react/issues"
+    "url": "https://github.com/"
   },
-  "homepage": "https://demos.creative-tim.com/argon-dashboard-react/",
+  "homepage": "https://demos",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -43,8 +44,17 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.21",
+    "@fortawesome/free-brands-svg-icons": "^5.10.1",
+    "@fortawesome/free-solid-svg-icons": "^5.10.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "@material-ui/core": "^4.3.1",
+    "@material-ui/icons": "^4.2.1",
+    "axios": "^0.19.0",
     "chart.js": "2.7.3",
     "classnames": "2.2.6",
+    "draft-js": "^0.11.0",
+    "js-cookie": "^2.2.0",
     "moment": "2.24.0",
     "node-sass": "4.11.0",
     "nouislider": "13.1.1",
@@ -53,10 +63,13 @@
     "react-copy-to-clipboard": "5.0.1",
     "react-datetime": "2.16.3",
     "react-dom": "16.8.4",
+    "react-draft-wysiwyg": "^1.13.2",
     "react-google-maps": "9.4.5",
     "react-router-dom": "4.3.1",
     "react-scripts": "2.1.8",
-    "reactstrap": "7.1.0"
+    "reactstrap": "7.1.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.87.3"
   },
   "devDependencies": {
     "@types/googlemaps": "3.30.18",

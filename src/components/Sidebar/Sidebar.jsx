@@ -1,18 +1,18 @@
 /*!
 
+
 =========================================================
-* Argon Dashboard React - v1.0.0
+* Mentr Website - v1.0.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+* Copyright 2019 Mentr Team 
 
-* Coded by Creative Tim
+* Coded by Mentr Team
 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
 
 */
 /*eslint-disable*/
@@ -53,6 +53,13 @@ import {
 } from "reactstrap";
 
 var ps;
+
+const logoStyle = {
+  
+   width: '1300px',
+   height: '100px'
+
+};
 
 class Sidebar extends React.Component {
   state = {
@@ -200,11 +207,11 @@ class Sidebar extends React.Component {
                   <Col className="collapse-brand" xs="6">
                     {logo.innerLink ? (
                       <Link to={logo.innerLink}>
-                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                        <img className="img=fluid" alt={logo.imgAlt} src={logo.imgSrc} />
                       </Link>
                     ) : (
                       <a href={logo.outterLink}>
-                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                        <img className="img=fluid" alt={logo.imgAlt} src={logo.imgSrc} />
                       </a>
                     )}
                   </Col>

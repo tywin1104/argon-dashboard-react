@@ -1,25 +1,35 @@
 /*!
 
+
 =========================================================
-* Argon Dashboard React - v1.0.0
+* Mentr Website - v1.0.0
 =========================================================
 
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+* Copyright 2019 Mentr Team 
 
-* Coded by Creative Tim
+* Coded by Mentr Team
 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
+
 */
 import React from "react";
+import {Link} from 'react-router-dom'
+
+import clsx from 'clsx';
+import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { green } from '@material-ui/core/colors';
+import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import CheckIcon from '@material-ui/icons/Check';
+import SaveIcon from '@material-ui/icons/Save';
 
 // reactstrap components
 import {
-  Button,
+  // Button,
   Card,
   CardHeader,
   CardBody,
@@ -33,52 +43,63 @@ import {
   Col
 } from "reactstrap";
 
+
+
 class Login extends React.Component {
-  render() {
-    return (
-      <>
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      email : '',
+      password : ''
+
+    };
+  }
+  
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    fetch('/api/auth/authenticate',  {
+      method : 'POST',
+      body: JSON.stringify(this.state),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => {
+      if ( res.status === 200) {
+        this.props.history.push('/');
+      } else if(res.status === 401) {
+        const error = new Error("wrong Credentials")
+        throw error;
+      }
+    })
+    .catch(err => {
+      alert('Wrong Email or Password, please try again later')
+
+    });
+  }
+  
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name] : value
+    });
+  }
+ 
+  
+
+    render() {
+      return (
+        <>
         <Col lg="5" md="7">
           <Card className="bg-secondary shadow border-0">
-            <CardHeader className="bg-transparent pb-5">
-              <div className="text-muted text-center mt-2 mb-3">
-                <small>Sign in with</small>
-              </div>
-              <div className="btn-wrapper text-center">
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="#pablo"
-                  onClick={e => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("assets/img/icons/common/github.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Github</span>
-                </Button>
-                <Button
-                  className="btn-neutral btn-icon"
-                  color="default"
-                  href="#pablo"
-                  onClick={e => e.preventDefault()}
-                >
-                  <span className="btn-inner--icon">
-                    <img
-                      alt="..."
-                      src={require("assets/img/icons/common/google.svg")}
-                    />
-                  </span>
-                  <span className="btn-inner--text">Google</span>
-                </Button>
-              </div>
-            </CardHeader>
+            
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
-                <small>Or sign in with credentials</small>
+                <small>Sign in with credentials</small>
               </div>
-              <Form role="form">
+              <Form role="form" onSubmit={this.onSubmit}>
                 <FormGroup className="mb-3">
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
@@ -86,7 +107,12 @@ class Login extends React.Component {
                         <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Email" type="email" />
+                    <Input name="email" 
+                    placeholder="Email" 
+                    type="email" 
+                    value={this.state.email} 
+                    onChange={this.handleInputChange}
+                    required/>
                   </InputGroup>
                 </FormGroup>
                 <FormGroup>
@@ -96,24 +122,17 @@ class Login extends React.Component {
                         <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Password" type="password" />
+                    <Input name="password" 
+                    placeholder="Password" 
+                    type="password" 
+                    value={this.state.password} 
+                    onChange={this.handleInputChange}
+                    required/>
                   </InputGroup>
                 </FormGroup>
-                <div className="custom-control custom-control-alternative custom-checkbox">
-                  <input
-                    className="custom-control-input"
-                    id=" customCheckLogin"
-                    type="checkbox"
-                  />
-                  <label
-                    className="custom-control-label"
-                    htmlFor=" customCheckLogin"
-                  >
-                    <span className="text-muted">Remember me</span>
-                  </label>
-                </div>
+             
                 <div className="text-center">
-                  <Button className="my-4" color="primary" type="button">
+                  <Button className="my-4" color="primary" type="submit" >
                     Sign in
                   </Button>
                 </div>
@@ -133,17 +152,25 @@ class Login extends React.Component {
             <Col className="text-right" xs="6">
               <a
                 className="text-light"
-                href="#pablo"
+                href=""
                 onClick={e => e.preventDefault()}
               >
-                <small>Create new account</small>
+                <small><Link to="/auth/register">Create new account</Link></small>
               </a>
             </Col>
           </Row>
         </Col>
       </>
-    );
-  }
-}
 
-export default Login;
+      );
+    }
+  }
+
+
+
+
+
+
+
+ export default Login;
+
