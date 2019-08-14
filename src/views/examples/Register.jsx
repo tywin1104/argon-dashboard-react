@@ -16,6 +16,7 @@
 
 */
 import React from "react";
+import CircularIntegration from '../../components/CircularIntegration'
 
 // reactstrap components
 import {
@@ -130,6 +131,7 @@ class Register extends React.Component {
                   </InputGroup>
                 </FormGroup>
                 <div className="text-center">
+                <CircularIntegration></CircularIntegration>
                   <Button className="mt-4" color="primary" type="submit">
                     Create account
                   </Button>

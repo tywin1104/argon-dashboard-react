@@ -54,6 +54,7 @@
     "chart.js": "2.7.3",
     "classnames": "2.2.6",
     "draft-js": "^0.11.0",
+    "draftjs-to-html": "^0.8.4",
     "js-cookie": "^2.2.0",
     "moment": "2.24.0",
     "node-sass": "4.11.0",

@@ -29,7 +29,10 @@ import { faCanadianMapleLeaf } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import '../../assets/css/editor.css'
 
 
 
@@ -38,13 +41,19 @@ class MentorDetails extends React.Component {
     constructor() {
         super();
         this.state = {
-            reply_content: '',
             post: null, 
             post_id: '',
-            users_info: {}
-            
+            users_info: {},
+            editorState: EditorState.createEmpty(), 
         };
     }
+    onEditorStateChange = (editorState) => {
+      console.log(editorState)
+      this.setState({
+        editorState,
+      });
+    };
+    
 
     
 
@@ -59,7 +68,7 @@ class MentorDetails extends React.Component {
           if (res.status === 200) {
             const data = res.data
             this.setState({post: data.post});
-            console.log(data.post)
+            // console.log(data.post)
             let replies = data.post.replies
             for(let i = 0; i < replies.length; i++){
               let reply = replies[i]
@@ -82,48 +91,44 @@ class MentorDetails extends React.Component {
           }
         })
       }
-      handleInputChange = (event) => {
-        const { value, name } = event.target;
-        this.setState({
-          [name] : value
-        });
-      }
 
-      onSubmit = (event) => {
-        event.preventDefault();
-        let new_reply = {
-          content: this.state.reply_content,
-          username: this.props.name
-        }
-        this.setState({reply_content: ''})
-        fetch(`/api/posts/${this.state.post_id}/replies`,  {
-          method : 'POST',
-          body: JSON.stringify({
-            replies: [new_reply]
-          }),
-          headers: {
-            'Content-Type': 'application/json'
+      onSubmit (text) {
+        return event => {
+          event.preventDefault();
+          let new_reply = {
+            content: text,
+            username: this.props.name
           }
-        })
-        .then(res => {
-          if ( res.status === 200) {
-            axios.get(`/api/posts/${this.state.post_id}`)
-            .then(res => {
-              if (res.status === 200) {
-                const data = res.data
-                this.setState({ post: data.post });
-              }
-              this.changeUserPoints(1)
-            })
-            console.log('Success')
-          } else {
-            alert("Unable to submit reply. Please try again.")
-          }
-        })
-        .catch(err => {
-          alert('Wrong Email or Password, please try again later')
-    
-        });
+          this.setState({reply_content: ''})
+          fetch(`/api/posts/${this.state.post_id}/replies`,  {
+            method : 'POST',
+            body: JSON.stringify({
+              replies: [new_reply]
+            }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(res => {
+            if ( res.status === 200) {
+              axios.get(`/api/posts/${this.state.post_id}`)
+              .then(res => {
+                if (res.status === 200) {
+                  const data = res.data
+                  this.setState({ post: data.post });
+                }
+                this.changeUserPoints(1)
+              })
+              console.log('Success')
+            } else {
+              alert("Unable to submit reply. Please try again.")
+            }
+          })
+          .catch(err => {
+            alert('Wrong Email or Password, please try again later')
+      
+          });
+      }
       }
       isLoggedIn() {
         return this.props.name !== 'Guest'
@@ -184,10 +189,11 @@ class MentorDetails extends React.Component {
         if(this.state.post === null){
             return null;
         }
-        console.log(this.state.post)
+        // console.log(this.state.post)
         let replies = this.state.post.replies
+        const { editorState } = this.state;
         let comments = replies.map((reply) => {
-          let isSameUser = (reply.username === this.props.name) 
+        let isSameUser = (reply.username === this.props.name) 
         
 
             return (
@@ -216,7 +222,7 @@ class MentorDetails extends React.Component {
                 </CardSemanticUI>
                 <Comment.Content className='col-md-10 col-lg-10' style={{paddingLeft: '10%'}}>
                     <Comment.Text style={{fontSize: '130%'}}>
-                        {reply.content}
+                      <div dangerouslySetInnerHTML={{__html: reply.content}}></div>
                     </Comment.Text>
                     <Comment.Actions>
                     <Comment.Action>
@@ -256,23 +262,17 @@ class MentorDetails extends React.Component {
                           <b className="hr anim"></b>
                            {comments}
 
-                            <Form reply onSubmit={this.onSubmit}>
-                            {/* <Form.TextArea  
-                            name="reply_content"
-                            placeholder="Enter Text to reply to this post"
-                            value={this.state.reply_content}
-                            onChange={this.handleInputChange}
-                             required 
-                            /> */}
+                        <Form reply onSubmit={this.onSubmit(draftToHtml(convertToRaw(editorState.getCurrentContent())))}>
                           <Editor
-                              name="reply_content"
-                               placeholder="Enter Text to reply to this post"
-                               value={this.state.reply_content}
+                              placeholder="Enter Text to reply to this post"
                               toolbarClassName="toolbarClassName"
                               wrapperClassName="wrapperClassName"
                               editorClassName="editorClassName"
-                             
+                              onEditorStateChange={this.onEditorStateChange}
                             />
+                            {/* <div>
+                            {draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+                            </div> */}
                             <Alert style={isLoggedIn ? {display: 'none'} : {}} color="dark">
                               You have to login in order to reply to this post
                               </Alert>

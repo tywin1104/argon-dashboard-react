@@ -46,7 +46,8 @@ class Tables extends React.Component {
       posts: [],
       modal: false,
       new_post_title: '',
-      new_post_content: ''
+      new_post_content: '',
+      current_user: {},
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -62,8 +63,19 @@ class Tables extends React.Component {
       }else{
         console.log("Unable to get all posts")
       }
+      axios.get(`/api/users?name=${this.props.name}`)
+        .then(res => {
+          if (res.status === 200) {
+            const user = res.data.users[0]
+            this.setState({current_user: user});
+          }else{
+            console.log("Unable to get all posts")
+          }
+        })
     })
   }
+  
+
 
   isLoggedIn() {
     return this.props.name !== 'Guest'
@@ -242,7 +254,7 @@ changeUserPoints(delta) {
                       </td>
                       <td className="text-right">
                       <div 
-                      style={  ((!isSameUser || !this.isLoggedIn()) && (!adminTrue)) ? {display: 'none'}: {}  }
+                      style={  ((!isSameUser || !this.isLoggedIn()) && (!this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN')) ? {display: 'none'}: {}  }
                       //  style={  (!this.isLoggedIn()) ? {display: 'none'}: {}  }
                       // style={  (!isSameUser) ? {display: 'none'}: {}  }
 
@@ -303,7 +315,7 @@ changeUserPoints(delta) {
                   <h3 className="mb-0">Posts</h3>
                   
                   <Button color="primary" disabled={this.props.name === 'Guest'} style={{marginLeft: "auto"}} onClick={this.toggle}>Create New Post</Button>
-                  <Button color="danger" disabled={this.props.name !== 'Admin'} style={(this.props.name !== 'Admin') ?  {display: 'none'}: {}} >You are an Admin</Button>
+                  <Button color="danger" style={(!this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN') ?  {display: 'none'}: {}} >You are an Admin</Button>
  
                   </Row>  
                   <div>
