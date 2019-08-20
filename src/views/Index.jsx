@@ -24,16 +24,15 @@ import { Line, Bar } from "react-chartjs-2";
 // reactstrap components
 
 import axios from "axios";
+import Calendar from "../components/Calendar"
+
+
 
 
 import {
   Button,
   Card,
   CardHeader,
-  CardBody,
-  NavItem,
-  NavLink,
-  Nav,
   Progress,
   Table,
   Container,
@@ -41,15 +40,15 @@ import {
   Alert,
   Form,
   Input,
-  Col
+  Col,
+  Label,
+  FormGroup
 } from "reactstrap";
 
 // core components
 import {
   chartOptions,
   parseOptions,
-  chartExample1,
-  chartExample2
 } from "variables/charts.jsx";
 
 import Header from "components/Headers/Header.jsx";
@@ -90,6 +89,15 @@ class Index extends React.Component {
       }else{
         console.log("Unable to get this announcement by id")
       }
+      axios.get(`/api/users?name=${this.props.name}`)
+      .then(res => {
+        if (res.status === 200) {
+          const user = res.data.users[0]
+          this.setState({current_user: user});
+        }else{
+          console.log("Unable to get all posts")
+        }
+      })
     })
   }
 
@@ -97,44 +105,66 @@ class Index extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      announcement : {}
+      announcement : {},
+      new_announcement : "",
+      current_user: {},
     };
   }
 
+
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name] : value
+    });
+  }
+
+
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('/api/announcements/recent',  {
-      method : 'POST',
-      body: JSON.stringify(this.state),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    axios.post('/api/announcements/',  {
+      content: this.state.new_announcement
     })
     .then(res => {
       if ( res.status === 200) {
-        this.props.history.push('/');
-      } else if(res.status === 401) {
-        const error = new Error("wrong Credentials")
-        throw error;
+        axios.get(`/api/announcements/recent`)
+          .then(res => {
+            if (res.status === 200) {
+              const data = res.data
+              this.setState({announcement: data.announcement});
+            }else{
+              console.log("Unable to get this announcement by id")
+            }
+          })
       }
     })
-    .catch(err => {
-      alert('Wrong Email or Password, please try again later')
-
-    });
   }
  
 
   render() {
     return (
+      
       <>
-        <Header />
+         <Header />
         {/* Page content */}
         <Container className="mt--7" fluid>
 
         <Alert color="warning" style={announcmentStyle}>
         {this.state.announcement.content}
       </Alert>
+      
+      <Form style={(!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN') ?  {display: 'none'}: {}}  onSubmit={this.onSubmit} >
+        <FormGroup >
+          <Label for="new_announcement">Edit an Description</Label>
+          <Input 
+            name="new_announcement" 
+            placeholder="sample announcement"
+            value={this.state.new_announcement}
+            onChange={this.handleInputChange}
+          ></Input>
+          <Button type="submit">Submit</Button>
+        </FormGroup>
+      </Form>
           <Row>
           
           </Row>
@@ -326,6 +356,7 @@ class Index extends React.Component {
               </Card>
             </Col>
           </Row>
+          <Calendar></Calendar>
         </Container>
       </>
     );

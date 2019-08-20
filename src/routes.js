@@ -24,6 +24,7 @@ import Tables from "views/examples/Tables.jsx";
 import Icons from "views/examples/Icons.jsx";
 import MentorDetails from "./components/Mentor/MentorDetails.jsx";
 import Clubs from "./components/Clubs/Clubs.jsx";
+import ClubDetails from './components/Clubs/ClubDetails'
 
 var routes = [
   {
@@ -66,6 +67,13 @@ var routes = [
     name: "Mentor",
     icon: "ni ni-bullet-list-67 text-red",
     component: Tables,
+    layout: "/admin"
+  },
+  {
+    path: "/clubs/:id",
+    name: "ClubDetails",
+    icon: "ni ni-bullet-list-67 text-red",
+    component: ClubDetails,
     layout: "/admin"
   },
   {

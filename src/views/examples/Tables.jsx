@@ -254,7 +254,7 @@ changeUserPoints(delta) {
                       </td>
                       <td className="text-right">
                       <div 
-                      style={  ((!isSameUser || !this.isLoggedIn()) && (!this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN')) ? {display: 'none'}: {}  }
+                      style={  ((!isSameUser || !this.isLoggedIn()) && (!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN')) ? {display: 'none'}: {}  }
                       //  style={  (!this.isLoggedIn()) ? {display: 'none'}: {}  }
                       // style={  (!isSameUser) ? {display: 'none'}: {}  }
 
@@ -315,7 +315,7 @@ changeUserPoints(delta) {
                   <h3 className="mb-0">Posts</h3>
                   
                   <Button color="primary" disabled={this.props.name === 'Guest'} style={{marginLeft: "auto"}} onClick={this.toggle}>Create New Post</Button>
-                  <Button color="danger" style={(!this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN') ?  {display: 'none'}: {}} >You are an Admin</Button>
+                  <Button color="danger" style={(!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN') ?  {display: 'none'}: {}} >You are an Admin</Button>
  
                   </Row>  
                   <div>

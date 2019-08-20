@@ -175,11 +175,11 @@ class MentorDetails extends React.Component {
 })
 }
 
-  getUserPoints(username) {
+  getUser(username) {
     if(this.state.users_info[username]) {
-      return this.state.users_info[username].points
+      return this.state.users_info[username]
     }else{
-      return ''
+      return {}
     }
   }
 
@@ -201,23 +201,27 @@ class MentorDetails extends React.Component {
                 <Comment className='row'>
                   
                 {/* <Comment.Avatar as='a' src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&bold=true&rounded=true&name=${reply.username}` }/> */}
-                <CardSemanticUI className='col-md-2 col-lg-2' style={{maxHeight: '35vh'}}>
+                <CardSemanticUI className='col-md-2 col-lg-2' style={{maxHeight: '40vh'}}>
                   <Image src={`https://ui-avatars.com/api/?background=0D8ABC&color=fff&bold=true&name=${reply.username}` } wrapped ui={false} />
                   <CardSemanticUI.Content>
                     <CardSemanticUI.Header>{reply.username}</CardSemanticUI.Header>
                     <CardSemanticUI.Meta>
                       <span className='date'>{ moment.parseZone(reply.timestamp).local().fromNow()}</span>
                     </CardSemanticUI.Meta>
-                    {/* <CardSemanticUI.Description>
-                      Matthew is a musician living in Nashville.
-                    </CardSemanticUI.Description> */}
+
+                    <CardSemanticUI.Description style={(this.getUser(reply.username).userType === "ADMIN") ? {backgroundColor: "#FF2322", borderRadius: '5px'}: (this.getUser(reply.username).userType === "MOD") ? {backgroundColor: "#DAA520", borderRadius: '5px'}: {backgroundColor: "#4D87C1", borderRadius: '5px'}} >
+                      <p className="text-center" style={{ fontWeight: 'bold', color: 'white'}}>{this.getUser(reply.username).userType}</p>
+                    </CardSemanticUI.Description>
+                    
+                    
                   </CardSemanticUI.Content>
                   <CardSemanticUI.Content extra>
                     
+                  
                   <FontAwesomeIcon icon={faCanadianMapleLeaf}  />
                  <span style={{paddingLeft: '5%'}}>
-                      {this.getUserPoints(reply.username)}
-                      </span>
+                      {this.getUser(reply.username).points}
+                    </span>
                   </CardSemanticUI.Content>
                 </CardSemanticUI>
                 <Comment.Content className='col-md-10 col-lg-10' style={{paddingLeft: '10%'}}>

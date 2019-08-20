@@ -43,7 +43,8 @@ getLoggedInRoutes = () => {
   let newRoutes = routes.filter(function (el) {
     return el.name !== 'Login' &&
            el.name !== 'Register'  &&
-           el.name !== 'MentorDetails'
+           el.name !== 'MentorDetails' &&
+           el.name !== 'ClubDetails'
   });
 return newRoutes
 }
@@ -54,7 +55,8 @@ return newRoutes
 
     }else{
       return routes.filter(function(el) {
-        return el.name !== 'MentorDetails'
+        return el.name !== 'MentorDetails' &&
+               el.name !== 'ClubDetails'
       })
     }
   }
