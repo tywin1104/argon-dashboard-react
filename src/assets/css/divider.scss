@@ -1,7 +1,7 @@
 $bg: #fff;
 $barsize: 15px;
 
-.hr {
+.hrr {
     
     width: 100%;
     height: 1px;
@@ -67,7 +67,7 @@ $barsize: 15px;
 
 
 
-.hr.anim {
+.hrr.anim {
     &:before {
         background: linear-gradient( 
             90deg, 

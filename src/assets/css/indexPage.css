@@ -1,0 +1,12 @@
+.range {
+    display: none;
+}
+
+.current {
+    margin-top: 8%;
+    margin-bottom: 8%;
+}
+
+.rw-today {
+    height: 40vh;
+}

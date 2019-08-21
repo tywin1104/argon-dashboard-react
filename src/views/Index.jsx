@@ -24,10 +24,12 @@ import { Line, Bar } from "react-chartjs-2";
 // reactstrap components
 
 import axios from "axios";
-import Calendar from "../components/Calendar"
 
-
-
+import { faTrophy } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactWeather from 'react-open-weather'
+import 'react-open-weather/lib/css/ReactWeather.css';
+import '../assets/css/indexPage.css'
 
 import {
   Button,
@@ -94,6 +96,15 @@ class Index extends React.Component {
         if (res.status === 200) {
           const user = res.data.users[0]
           this.setState({current_user: user});
+          axios.get('/api/users/')
+            .then(res => {
+              if(res.status === 200) {
+                const data = res.data
+                this.setState({all_users: data.users})
+                console.log("Sorted USer:")
+                console.log(this.getUsersSortedByPoints())
+              }
+            })
         }else{
           console.log("Unable to get all posts")
         }
@@ -108,6 +119,7 @@ class Index extends React.Component {
       announcement : {},
       new_announcement : "",
       current_user: {},
+      all_users:  [{}]
     };
   }
 
@@ -119,6 +131,11 @@ class Index extends React.Component {
     });
   }
 
+  getUsersSortedByPoints() {
+    return this.state.all_users.sort((user1, user2) => {
+      return (user1.points <= user2.points) ? 1 : -1
+    })
+  }
 
   onSubmit = (event) => {
     event.preventDefault();
@@ -139,9 +156,48 @@ class Index extends React.Component {
       }
     })
   }
- 
 
+  getTrophyStyle(index) {
+    if(index > 2) {
+      return {
+        display: 'none'
+      }
+    }
+    let style = {
+      paddingRight: '5%',
+      fontSize: '200%',
+      color: ''
+    }
+    if(index === 0) {
+      style.color = 'rgb(248,206,56)'
+    }else if(index === 1) {
+      style.color = 'rgb(192,192,192)'
+    }else if(index === 2) {
+      style.color = '#cd7f32'
+    }
+    return style;
+  }
+ 
   render() {
+    let top_users = this.getUsersSortedByPoints().slice(0,5).map((user, index)=> {
+      return (
+        <tr>
+          <th scope="row"><span style={this.getTrophyStyle(index)} ><FontAwesomeIcon icon={faTrophy}/></span>{user.name}</th>
+          <td>{user.points}</td>
+          <td>
+            <div className="d-flex align-items-center">
+              <div>
+                <Progress
+                  max="100"
+                  value={100- index*20}
+                  barClassName="bg-gradient-danger"
+                />
+              </div>
+            </div>
+          </td>
+        </tr>
+      )
+    })
     return (
       
       <>
@@ -171,80 +227,13 @@ class Index extends React.Component {
           <Row className="mt-5">
             <Col className="mb-5 mb-xl-0" xl="8">
               <Card className="shadow">
-                <CardHeader className="border-0">
-                  <Row className="align-items-center">
-                    <div className="col">
-                      <h3 className="mb-0">Page visits</h3>
-                    </div>
-                    <div className="col text-right">
-                      <Button
-                        color="primary"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                        size="sm"
-                      >
-                        See all
-                      </Button>
-                    </div>
-                  </Row>
-                </CardHeader>
-                <Table className="align-items-center table-flush" responsive>
-                  <thead className="thead-light">
-                    <tr>
-                      <th scope="col">Page name</th>
-                      <th scope="col">Visitors</th>
-                      <th scope="col">Unique users</th>
-                      <th scope="col">Bounce rate</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">/argon/</th>
-                      <td>4,569</td>
-                      <td>340</td>
-                      <td>
-                        <i className="fas fa-arrow-up text-success mr-3" />{" "}
-                        46,53%
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">/argon/index.html</th>
-                      <td>3,985</td>
-                      <td>319</td>
-                      <td>
-                        <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                        46,53%
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">/argon/charts.html</th>
-                      <td>3,513</td>
-                      <td>294</td>
-                      <td>
-                        <i className="fas fa-arrow-down text-warning mr-3" />{" "}
-                        36,49%
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">/argon/tables.html</th>
-                      <td>2,050</td>
-                      <td>147</td>
-                      <td>
-                        <i className="fas fa-arrow-up text-success mr-3" />{" "}
-                        50,87%
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">/argon/profile.html</th>
-                      <td>1,795</td>
-                      <td>190</td>
-                      <td>
-                        <i className="fas fa-arrow-down text-danger mr-3" />{" "}
-                        46,53%
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
+                  <ReactWeather
+                      forecast="today"  
+                      apikey="59feb43bb94f4544be200049192108"
+                      type="city"
+                      city="Toronto"
+                    />
+                    {/* <p style={{position: "absolute", bottom: "10%"}}>Today is day 2</p> */}
               </Card>
             </Col>
             <Col xl="4">
@@ -252,111 +241,26 @@ class Index extends React.Component {
                 <CardHeader className="border-0">
                   <Row className="align-items-center">
                     <div className="col">
-                      <h3 className="mb-0">Social traffic</h3>
-                    </div>
-                    <div className="col text-right">
-                      <Button
-                        color="primary"
-                        href="#pablo"
-                        onClick={e => e.preventDefault()}
-                        size="sm"
-                      >
-                        See all
-                      </Button>
+                      <h3 className="mb-0">Leaderboard</h3>
                     </div>
                   </Row>
                 </CardHeader>
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
-                      <th scope="col">Referral</th>
-                      <th scope="col">Visitors</th>
+                      <th scope="col">User Name</th>
+                      <th scope="col">Points</th>
                       <th scope="col" />
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">Facebook</th>
-                      <td>1,480</td>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">60%</span>
-                          <div>
-                            <Progress
-                              max="100"
-                              value="60"
-                              barClassName="bg-gradient-danger"
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Facebook</th>
-                      <td>5,480</td>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">70%</span>
-                          <div>
-                            <Progress
-                              max="100"
-                              value="70"
-                              barClassName="bg-gradient-success"
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Google</th>
-                      <td>4,807</td>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">80%</span>
-                          <div>
-                            <Progress max="100" value="80" />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Instagram</th>
-                      <td>3,678</td>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">75%</span>
-                          <div>
-                            <Progress
-                              max="100"
-                              value="75"
-                              barClassName="bg-gradient-info"
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">twitter</th>
-                      <td>2,645</td>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">30%</span>
-                          <div>
-                            <Progress
-                              max="100"
-                              value="30"
-                              barClassName="bg-gradient-warning"
-                            />
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                      {top_users}
                   </tbody>
                 </Table>
               </Card>
             </Col>
           </Row>
-          <Calendar></Calendar>
+         
         </Container>
       </>
     );

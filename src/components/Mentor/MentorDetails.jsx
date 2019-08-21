@@ -239,7 +239,7 @@ class MentorDetails extends React.Component {
                     </Comment.Action>
                     </Comment.Actions>
                 </Comment.Content>
-                <b className="hr anim"></b>
+                <b className="hrr anim"></b>
                 </Comment>
             )
           })
@@ -263,7 +263,7 @@ class MentorDetails extends React.Component {
                     <div></div>
                     </Comment.Metadata>
                          <Comment.Group size='large' style={{maxWidth: '80%'}}>
-                          <b className="hr anim"></b>
+                          <b className="hrr anim"></b>
                            {comments}
 
                         <Form reply onSubmit={this.onSubmit(draftToHtml(convertToRaw(editorState.getCurrentContent())))}>
