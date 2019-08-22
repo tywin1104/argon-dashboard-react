@@ -8,20 +8,14 @@ import {
   Badge,
   Card,
   CardHeader,
-  CardFooter,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
   Media,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Progress,
   Table,
   Container,
   Row,
-  UncontrolledTooltip,
   Button,
   Modal,
   ModalHeader,
@@ -310,7 +304,7 @@ changeUserPoints(delta) {
           <Row>
             <div className="col">
               <Card className="shadow">
-                <CardHeader className="border-0">
+                <CardHeader style={{backgroundRepeat: 'repeat', backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNarfhvpyI9_wzGSXbXUH5Yn0Q9CAApXoBz8sDxKapfADJkqbiDw")'}} className="border-0">
                   <Row>
                   <h3 className="mb-0">Posts</h3>
                   

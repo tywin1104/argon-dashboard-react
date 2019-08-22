@@ -20,7 +20,6 @@ import classnames from "classnames";
 // javascipt plugin for creating charts
 import Chart from "chart.js";
 // react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
 // reactstrap components
 
 import axios from "axios";
@@ -47,6 +46,7 @@ import {
   FormGroup
 } from "reactstrap";
 
+import { Message } from 'semantic-ui-react'
 // core components
 import {
   chartOptions,
@@ -60,25 +60,6 @@ const announcmentStyle = {
 
 class Index extends React.Component {
 
-  
-  state = {
-    activeNav: 1,
-    chartExample1Data: "data1"
-  };
-  toggleNavs = (e, index) => {
-    e.preventDefault();
-    this.setState({
-      activeNav: index,
-      chartExample1Data:
-        this.state.chartExample1Data === "data1" ? "data2" : "data1"
-    });
-    let wow = () => {
-      console.log(this.state);
-    };
-    wow.bind(this);
-    setTimeout(() => wow(), 1000);
-    // this.chartReference.update();
-  };
   componentWillMount() {
     if (window.Chart) {
       parseOptions(Chart, chartOptions());
@@ -205,9 +186,10 @@ class Index extends React.Component {
         {/* Page content */}
         <Container className="mt--7" fluid>
 
-        <Alert color="warning" style={announcmentStyle}>
-        {this.state.announcement.content}
-      </Alert>
+      <Message style={{margin: '0'}} size="large" color='orange'>
+        <Message.Header>{this.state.announcement.content}</Message.Header>
+        <p>Today is Day 5.</p>
+      </Message>
       
       <Form style={(!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN') ?  {display: 'none'}: {}}  onSubmit={this.onSubmit} >
         <FormGroup >

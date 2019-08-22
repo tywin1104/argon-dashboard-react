@@ -17,14 +17,14 @@
 */
 import Index from "views/Index.jsx";
 import Profile from "views/examples/Profile.jsx";
-import Maps from "views/examples/Maps.jsx";
 import Register from "views/examples/Register.jsx";
 import Login from "views/examples/Login.jsx";
 import Tables from "views/examples/Tables.jsx";
-import Icons from "views/examples/Icons.jsx";
 import MentorDetails from "./components/Mentor/MentorDetails.jsx";
 import Clubs from "./components/Clubs/Clubs.jsx";
 import ClubDetails from './components/Clubs/ClubDetails'
+import Election from './components/Election/Election'
+import LunchMenu from './components/LunchMenu/LunchMenu'
 
 var routes = [
   {
@@ -35,17 +35,10 @@ var routes = [
     layout: "/admin"
   },
   {
-    path: "/icons",
-    name: "Icons",
-    icon: "ni ni-planet text-blue",
-    component: Icons,
-    layout: "/admin"
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    icon: "ni ni-pin-3 text-orange",
-    component: Maps,
+    path: "/lunch",
+    name: "Lunch Menu",
+    icon: "ni ni-basket text-warning",
+    component: LunchMenu,
     layout: "/admin"
   },
   {
@@ -83,7 +76,13 @@ var routes = [
     component: Clubs,
     layout: "/admin"
   },
-  
+  {
+    path: "/election",
+    name: "Election",
+    icon: "ni ni-chart-bar-32 text-green",
+    component: Election,
+    layout: "/admin"
+  },
   {
     path: "/login",
     name: "Login",

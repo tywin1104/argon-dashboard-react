@@ -24,7 +24,7 @@ import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Link} from 'react-router-dom';
 
-class Tables extends React.Component {
+class Clubs extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -156,13 +156,13 @@ class Tables extends React.Component {
         <Header />
         {/* Page content */}
         
-        <Container className="mt--7" fluid>
+        <Container  className="mt--7" fluid>
           {/* Table */}
          
-          <Row>
+          <Row >
             <div className="col">
-              <Card className="shadow">
-                <CardHeader className="border-0">
+              <Card   className="shadow">
+                <CardHeader  style={{backgroundRepeat: 'repeat', backgroundImage: 'url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_lOqd08RhMtPu8rMCVlKN_tZ3af715OaSMj0MsfyMQ15hz_1HFg")'}} className="border-0">
                   <Row>
                   <h3 className="mb-0">Clubs</h3>
                   </Row>  
@@ -184,4 +184,4 @@ class Tables extends React.Component {
 
 
 
-export default Tables;
+export default Clubs;
