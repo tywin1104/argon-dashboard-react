@@ -19,13 +19,12 @@ import React from "react";
 import {Link} from 'react-router-dom'
 
 import Button from '@material-ui/core/Button';
-import CircularIntegration from '../../components/CircularIntegration'
+import { Message } from 'semantic-ui-react'
 
 // reactstrap components
 import {
   // Button,
   Card,
-  CardHeader,
   CardBody,
   FormGroup,
   Form,
@@ -45,8 +44,8 @@ class Login extends React.Component {
     super(props)
     this.state = {
       email : '',
-      password : ''
-
+      password : '',
+      failedLogin: false
     };
   }
   
@@ -69,8 +68,7 @@ class Login extends React.Component {
       }
     })
     .catch(err => {
-      alert('Wrong Email or Password, please try again later')
-
+      this.setState({failedLogin: true})
     });
   }
   
@@ -87,10 +85,15 @@ class Login extends React.Component {
       return (
         <>
         <Col lg="5" md="7">
+        <Message style={!this.state.failedLogin? {display: 'none'}: {}} negative>
+          <Message.Header>Login Failed</Message.Header>
+          <p>Please provide correct login credentials</p>
+         </Message>
           <Card className="bg-secondary shadow border-0">
             
             <CardBody className="px-lg-5 py-lg-5">
               <div className="text-center text-muted mb-4">
+                
                 <small>Sign in with credentials</small>
                 
               </div>
@@ -137,13 +140,6 @@ class Login extends React.Component {
           </Card>
           <Row className="mt-3">
             <Col xs="6">
-              <a
-                className="text-light"
-                href="#pablo"
-                onClick={e => e.preventDefault()}
-              >
-                <small>Forgot password?</small>
-              </a>
             </Col>
             <Col className="text-right" xs="6">
               <a

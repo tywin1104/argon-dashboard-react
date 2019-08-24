@@ -46,7 +46,7 @@ import {
   FormGroup
 } from "reactstrap";
 
-import { Message } from 'semantic-ui-react'
+import { Message, Image } from 'semantic-ui-react'
 // core components
 import {
   chartOptions,
@@ -242,7 +242,8 @@ class Index extends React.Component {
               </Card>
             </Col>
           </Row>
-         
+          {/* <img style={{width:'100%'}} src="https://cdn1.imggmi.com/uploads/2019/8/24/6e6281565b3a24591bcc81461a0361e6-full.jpg"></img> */}
+          <Image style={{marginTop:"-22%", zIndex:'-1'}} bordered src='https://cdn1.imggmi.com/uploads/2019/8/24/7179d0ee805bd6c1c7df2e1fe3daed02-full.jpg' fluid />
         </Container>
       </>
     );

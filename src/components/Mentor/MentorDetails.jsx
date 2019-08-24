@@ -26,6 +26,7 @@ import moment from 'moment';
 import "../../assets/css/divider.scss"
 
 import { faCanadianMapleLeaf } from '@fortawesome/free-brands-svg-icons';
+import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { Editor } from 'react-draft-wysiwyg';
@@ -219,8 +220,13 @@ class MentorDetails extends React.Component {
                     
                   
                   <FontAwesomeIcon icon={faCanadianMapleLeaf}  />
-                 <span style={{paddingLeft: '5%'}}>
+                   <span style={{paddingLeft: '5%', paddingRight: '30%'}}>
                       {this.getUser(reply.username).points}
+                  </span>
+
+                  <FontAwesomeIcon icon={faCrown}  />
+                 <span style={{paddingLeft: '5%'}}>
+                      {this.getUser(reply.username).level}
                     </span>
                   </CardSemanticUI.Content>
                 </CardSemanticUI>

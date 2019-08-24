@@ -28,7 +28,7 @@ class UserHeader extends React.Component {
           style={{
             minHeight: "600px",
             backgroundImage:
-              "url(" + require("assets/img/theme/profile-cover.jpg") + ")",
+              "url(" + 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-EKBBHy9ssq-sB-9x8ahmots9l88Xk-ZgtDvs_sJ1K44-DvsN' + ")",
             backgroundSize: "cover",
             backgroundPosition: "center top"
           }}
@@ -39,18 +39,11 @@ class UserHeader extends React.Component {
           <Container className="d-flex align-items-center" fluid>
             <Row>
               <Col lg="7" md="10">
-                <h1 className="display-2 text-white">Hello Jesse</h1>
+                <h1 className="display-2 text-white">Hello {}</h1>
                 <p className="text-white mt-0 mb-5">
                   This is your profile page. You can see the progress you've
                   made with your work and manage your projects or assigned tasks
                 </p>
-                <Button
-                  color="info"
-                  href="#pablo"
-                  onClick={e => e.preventDefault()}
-                >
-                  Edit profile
-                </Button>
               </Col>
             </Row>
           </Container>
