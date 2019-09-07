@@ -24,7 +24,7 @@ class LunchMenu extends React.Component {
     }
 
     componentWillMount() {
-        axios.get('/api/lunchMenus/')
+        axios.get('https://aqueous-brook-59449.herokuapp.com/api/lunchMenus/')
             .then((res)=> {
                 if(res.status === 200) {
                     this.setState({

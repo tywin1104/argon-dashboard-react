@@ -8,7 +8,6 @@
     "type": "git",
     "url": "git+https://github.com"
   },
-  "proxy": "https://aqueous-brook-59449.herokuapp.com/",
   "keywords": [
     "react",
     "reactjs",

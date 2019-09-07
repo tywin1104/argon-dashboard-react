@@ -64,7 +64,7 @@ class MentorDetails extends React.Component {
         let post_id = paths[paths.length-1]
         this.setState({ post_id })
 
-        axios.get(`/api/posts/${post_id}`)
+        axios.get(`https://aqueous-brook-59449.herokuapp.com/api/posts/${post_id}`)
         .then(res => {
           if (res.status === 200) {
             const data = res.data
@@ -74,7 +74,7 @@ class MentorDetails extends React.Component {
             for(let i = 0; i < replies.length; i++){
               let reply = replies[i]
               let reply_username = reply.username
-              axios.get(`/api/users/?name=${reply_username}`)
+              axios.get(`https://aqueous-brook-59449.herokuapp.com/api/users/?name=${reply_username}`)
                .then(res => {
                  if(res.status === 200) {
                    const user = res.data.users[0]
@@ -101,7 +101,7 @@ class MentorDetails extends React.Component {
             username: this.props.name
           }
           this.setState({reply_content: ''})
-          fetch(`/api/posts/${this.state.post_id}/replies`,  {
+          fetch(`https://aqueous-brook-59449.herokuapp.com/api/posts/${this.state.post_id}/replies`,  {
             method : 'POST',
             body: JSON.stringify({
               replies: [new_reply]
@@ -112,7 +112,7 @@ class MentorDetails extends React.Component {
           })
           .then(res => {
             if ( res.status === 200) {
-              axios.get(`/api/posts/${this.state.post_id}`)
+              axios.get(`https://aqueous-brook-59449.herokuapp.com/api/posts/${this.state.post_id}`)
               .then(res => {
                 if (res.status === 200) {
                   const data = res.data
@@ -136,11 +136,11 @@ class MentorDetails extends React.Component {
       }
 
       removeOnClick(reply_id) {
-        axios.delete(`/api/posts/${this.state.post_id}/replies/${reply_id}`)
+        axios.delete(`https://aqueous-brook-59449.herokuapp.com/api/posts/${this.state.post_id}/replies/${reply_id}`)
         .then(res => {
           if (res.status === 200) {
             this.changeUserPoints(-1)
-            axios.get(`/api/posts/${this.state.post_id}`)
+            axios.get(`https://aqueous-brook-59449.herokuapp.com/api/posts/${this.state.post_id}`)
             .then(res => {
               if (res.status === 200) {
             const data = res.data
@@ -157,7 +157,7 @@ class MentorDetails extends React.Component {
 
   changeUserPoints(delta) {
     let user_name = this.props.name
-    axios.get(`/api/users?name=${user_name}`)
+    axios.get(`https://aqueous-brook-59449.herokuapp.com/api/users?name=${user_name}`)
     .then(res => {
       if(res.status === 200) {
         let users = res.data.users
@@ -165,7 +165,7 @@ class MentorDetails extends React.Component {
         let user_found = users[0]
         let user_id = user_found._id
         let new_points = user_found.points + delta
-        axios.patch(`/api/users/${user_id}`, {points: new_points}, {})
+        axios.patch(`https://aqueous-brook-59449.herokuapp.com/api/users/${user_id}`, {points: new_points}, {})
         .then(res => {
           if(res.status === 200) {
             console.log(`Succesfully incremenet points of user: ${user_name} by ${delta}`)

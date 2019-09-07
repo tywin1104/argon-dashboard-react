@@ -41,7 +41,7 @@ class Tables extends React.Component {
   componentWillMount() {
     let paths = this.props.location.pathname.split("/")
     let group_id = paths[paths.length-1]
-    axios.get(`/api/groups/${group_id}`)
+    axios.get(`https://aqueous-brook-59449.herokuapp.com/api/groups/${group_id}`)
     .then(res => {
       if (res.status === 200) {
         const data = res.data
@@ -51,7 +51,7 @@ class Tables extends React.Component {
       }else{
         console.log("Unable to get this group")
       }
-      axios.get(`/api/users?name=${this.props.name}`)
+      axios.get(`https://aqueous-brook-59449.herokuapp.com/api/users?name=${this.props.name}`)
         .then(res => {
           if (res.status === 200) {
             const user = res.data.users[0]
@@ -75,14 +75,14 @@ class Tables extends React.Component {
     let paths = this.props.location.pathname.split("/")
     let group_id = paths[paths.length-1]
     event.preventDefault();
-    axios.post(`/api/groups/${group_id}/announcements`,  { 
+    axios.post(`https://aqueous-brook-59449.herokuapp.com/api/groups/${group_id}/announcements`,  { 
       announcement: {content: this.state.new_announcement}
     })
     .then(res => {
       if (res.status === 200) {
         console.log("successfully added new announcement")
         // HARD REFRESH
-        axios.get(`/api/groups/${group_id}`)
+        axios.get(`https://aqueous-brook-59449.herokuapp.com/api/groups/${group_id}`)
         .then(res => {
           if (res.status === 200) {
             const data = res.data
@@ -105,14 +105,14 @@ class Tables extends React.Component {
     let paths = this.props.location.pathname.split("/")
     let group_id = paths[paths.length-1]
     event.preventDefault();
-    axios.patch(`/api/groups/${group_id}/`,  { 
+    axios.patch(`https://aqueous-brook-59449.herokuapp.com/api/groups/${group_id}/`,  { 
       description: this.state.new_description
     })
     .then(res => {
       if (res.status === 200) {
         console.log("successfully added new description")
         // HARD REFRESH
-        axios.get(`/api/groups/${group_id}`)
+        axios.get(`https://aqueous-brook-59449.herokuapp.com/groups/${group_id}`)
         .then(res => {
           if (res.status === 200) {
             const data = res.data

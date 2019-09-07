@@ -47,7 +47,7 @@ class Tables extends React.Component {
   }
 
   componentWillMount() {
-    axios.get('/api/posts/')
+    axios.get('https://aqueous-brook-59449.herokuapp.com/api/posts/')
     .then(res => {
       if (res.status === 200) {
         const data = res.data
@@ -57,7 +57,7 @@ class Tables extends React.Component {
       }else{
         console.log("Unable to get all posts")
       }
-      axios.get(`/api/users?name=${this.props.name}`)
+      axios.get(`https://aqueous-brook-59449.herokuapp.com/api/users?name=${this.props.name}`)
         .then(res => {
           if (res.status === 200) {
             const user = res.data.users[0]
@@ -91,7 +91,7 @@ class Tables extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    axios.post(`/api/posts/`, {
+    axios.post(`https://aqueous-brook-59449.herokuapp.com/api/posts/`, {
       username: this.props.name,
       title: this.state.new_post_title,
       content: this.state.new_post_content
@@ -106,7 +106,7 @@ class Tables extends React.Component {
     this.changeUserPoints(2)
     this.toggle()
     // TODO: Simplify
-    axios.get(`/api/posts/`)
+    axios.get(`https://aqueous-brook-59449.herokuapp.com/api/posts/`)
       .then(res => {
         if (res.status === 200) {
           const data = res.data
@@ -120,11 +120,11 @@ class Tables extends React.Component {
   }
 
   onDelete(post_id) {
-    axios.delete(`/api/posts/${post_id}`)
+    axios.delete(`https://aqueous-brook-59449.herokuapp.com/api/posts/${post_id}`)
     .then(res => {
       if (res.status === 200) {
         this.changeUserPoints(-2)
-        axios.get(`/api/posts`)
+        axios.get(`https://aqueous-brook-59449.herokuapp.com/posts`)
         .then(res => {
           if (res.status === 200) {
         const data = res.data
@@ -139,13 +139,13 @@ class Tables extends React.Component {
 })
 }
 onChangeStatus(post_id) {
-  axios.patch(`/api/posts/${post_id}`,{
+  axios.patch(`https://aqueous-brook-59449.herokuapp.com/api/posts/${post_id}`,{
     resolved: true
   } )
   .then(res => {
     if (res.status === 200) {
      // this.changeUserPoints(-1)
-      axios.get(`/api/posts`)
+      axios.get(`https://aqueous-brook-59449.herokuapp.com/api/posts`)
       .then(res => {
         if (res.status === 200) {
       const data = res.data
@@ -161,7 +161,7 @@ onChangeStatus(post_id) {
 }
 changeUserPoints(delta) {
   let user_name = this.props.name
-  axios.get(`/api/users?name=${user_name}`)
+  axios.get(`https://aqueous-brook-59449.herokuapp.com/api/users?name=${user_name}`)
   .then(res => {
     if(res.status === 200) {
       let users = res.data.users
@@ -169,7 +169,7 @@ changeUserPoints(delta) {
       let user_found = users[0]
       let user_id = user_found._id
       let new_points = user_found.points + delta
-      axios.patch(`/api/users/${user_id}`, {points: new_points}, {})
+      axios.patch(`https://aqueous-brook-59449.herokuapp.com/api/users/${user_id}`, {points: new_points}, {})
       .then(res => {
         if(res.status === 200) {
           console.log(`Succesfully incremenet points of user: ${user_name} by ${delta}`)
