@@ -52,7 +52,7 @@ class Login extends React.Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('https:// .herokuapp.com/api/auth/authenticate',  {
+    fetch('https://aqueous-brook-59449.herokuapp.com/api/auth/authenticate',  {
       method : 'POST',
       body: JSON.stringify(this.state),
       headers: {
