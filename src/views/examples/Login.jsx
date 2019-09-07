@@ -35,6 +35,7 @@ import {
   Row,
   Col
 } from "reactstrap";
+import axios from "axios";
 
 
 
@@ -48,19 +49,17 @@ class Login extends React.Component {
       failedLogin: false
     };
   }
-  
 
+  // {withCredentials:true}
   onSubmit = (event) => {
     event.preventDefault();
-    fetch('https://aqueous-brook-59449.herokuapp.com/api/auth/authenticate',  {
-      method : 'POST',
-      body: JSON.stringify(this.state),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    axios.post('/api/auth/authenticate', {
+      email: this.state.email,
+      password: this.state.password
     })
     .then(res => {
       if ( res.status === 200) {
+        console.log(res.headers);
         this.props.history.push('/');
       } else if(res.status === 401) {
         const error = new Error("wrong Credentials")
@@ -71,7 +70,7 @@ class Login extends React.Component {
       this.setState({failedLogin: true})
     });
   }
-  
+
   handleInputChange = (event) => {
     const { value, name } = event.target;
     this.setState({

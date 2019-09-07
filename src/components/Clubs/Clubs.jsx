@@ -36,7 +36,7 @@ class Clubs extends React.Component {
     
 
   componentWillMount() {
-    axios.get('https://aqueous-brook-59449.herokuapp.com/api/groups/')
+    axios.get('/api/groups/')
     .then(res => {
       if (res.status === 200) {
         const data = res.data
@@ -60,12 +60,12 @@ class Clubs extends React.Component {
   }
 
   onJoin(group_id) {
-      axios.post(`https://aqueous-brook-59449.herokuapp.com/api/groups/${group_id}/members/`, {
+      axios.post(`/api/groups/${group_id}/members/`, {
           username: this.props.name
       })
       .then(res => {
         if (res.status === 200) {
-           axios.post(`https://aqueous-brook-59449.herokuapp.com/api/users/${this.state.current_user._id}/groups`, {
+           axios.post(`/api/users/${this.state.current_user._id}/groups`, {
                group: {
                 groupID: group_id,
                 memberType: "MEMBER"
@@ -76,7 +76,7 @@ class Clubs extends React.Component {
                    console.log("successfully update user's group metadata")
                }
                // Hard refresh
-               axios.get('https://aqueous-brook-59449.herokuapp.com/api/groups/')
+               axios.get('/api/groups/')
                .then(res => {
                  if (res.status === 200) {
                    const data = res.data
@@ -86,7 +86,7 @@ class Clubs extends React.Component {
                  }else{
                    console.log("Unable to get all groups")
                  }
-                 axios.get(`https://aqueous-brook-59449.herokuapp.com/api/users?name=${this.props.name}`)
+                 axios.get(`/api/users?name=${this.props.name}`)
                    .then(res => {
                      if (res.status === 200) {
                        const user = res.data.users[0]

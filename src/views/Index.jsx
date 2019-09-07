@@ -64,7 +64,7 @@ class Index extends React.Component {
     if (window.Chart) {
       parseOptions(Chart, chartOptions());
     }
-    axios.get(`https://aqueous-brook-59449.herokuapp.com/api/announcements/recent`)
+    axios.get(`/api/announcements/recent`)
     .then(res => {
       if (res.status === 200) {
         const data = res.data
@@ -72,12 +72,12 @@ class Index extends React.Component {
       }else{
         console.log("Unable to get this announcement by id")
       }
-      axios.get(`https://aqueous-brook-59449.herokuapp.com/api/users?name=${this.props.name}`)
+      axios.get(`/api/users?name=${this.props.name}`)
       .then(res => {
         if (res.status === 200) {
           const user = res.data.users[0]
           this.setState({current_user: user});
-          axios.get('https://aqueous-brook-59449.herokuapp.com/api/users/')
+          axios.get('/api/users/')
             .then(res => {
               if(res.status === 200) {
                 const data = res.data
@@ -125,7 +125,7 @@ class Index extends React.Component {
     })
     .then(res => {
       if ( res.status === 200) {
-        axios.get(`https://aqueous-brook-59449.herokuapp.com/api/announcements/recent`)
+        axios.get(`/api/announcements/recent`)
           .then(res => {
             if (res.status === 200) {
               const data = res.data

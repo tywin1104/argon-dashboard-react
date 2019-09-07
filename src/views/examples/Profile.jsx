@@ -45,7 +45,7 @@ class Profile extends React.Component {
   componentDidMount() {
     console.log(this.props.name)
     console.log(`https://aqueous-brook-59449.herokuapp.com/users?name=${this.props.name}`)
-    axios.get(`https://aqueous-brook-59449.herokuapp.com/api/users?name=${this.props.name}`)
+    axios.get(`/api/users?name=${this.props.name}`)
       .then(res => {
         if (res.status === 200) {
           console.log(res.data)

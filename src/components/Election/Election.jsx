@@ -33,13 +33,13 @@ class Election extends React.Component {
     
 
   updateElectionInfo() {
-    axios.get('https://aqueous-brook-59449.herokuapp.com/api/elections/')
+    axios.get('/api/elections/')
         .then((res)=> {
             if(res.status === 200) {
                 let election = res.data.elections[0];
                 this.setState({election})
                 let election_id = election._id;
-                axios.get(`https://aqueous-brook-59449.herokuapp.com/api/elections/${election_id}/participants`)
+                axios.get(`/api/elections/${election_id}/participants`)
                     .then((res)=> {
                         if(res.status === 200) {
                             this.setState({participants: res.data.participants})
@@ -65,7 +65,7 @@ class Election extends React.Component {
             alert('YOu already voted!')
             return 
         }
-        axios.patch(`https://aqueous-brook-59449.herokuapp.com/api/elections/${this.state.election._id}/participants/${participant._id}`, {
+        axios.patch(`/api/elections/${this.state.election._id}/participants/${participant._id}`, {
             votes: participant.votes + 1,
             voters: participant.voters.concat([this.props.name])
         })
