@@ -23,7 +23,6 @@
   "bugs": {
     "url": "https://github.com/"
   },
-  "homepage": "https://demos",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
