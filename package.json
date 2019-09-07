@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "description": "React version of Mentr",
   "main": "index.js",
+  "homepage":".",
   "repository": {
     "type": "git",
     "url": "git+https://github.com"
   },
-  "proxy": "http://localhost:8080",
+  "proxy": "https://aqueous-brook-59449.herokuapp.com/",
   "keywords": [
     "react",
     "reactjs",
