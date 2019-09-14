@@ -19,6 +19,7 @@ import {PricingTable, PricingSlot, PricingDetail} from 'react-pricing-table';
 import "../../assets/css/election.css"
 import ExampleComponent from "react-rounded-image";
 import VoteScreen from './voteScreen'
+import { Message } from 'semantic-ui-react'
 
 
 
@@ -27,7 +28,9 @@ class Election extends React.Component {
     super();
     this.state = {
         election: {participants: []},
-        participants: [{name:"", slogan:"", votes: 0, voters: [], iconurl:"" }]
+        participants: [{name:"", slogan:"", votes: 0, voters: [], iconurl:"" }],
+        failedLogin: false,
+        failedVoted: false
     }
   }
     
@@ -62,7 +65,7 @@ class Election extends React.Component {
             }
         }
         if(voted) {
-            alert('YOu already voted!')
+          this.setState({failedVoted: true})
             return 
         }
         axios.patch(`/api/elections/${this.state.election._id}/participants/${participant._id}`, {
@@ -76,15 +79,21 @@ class Election extends React.Component {
               this.updateElectionInfo()
           })
     }else {
-        alert('Please log in to vote!')
+      this.setState({failedLogin: true})
+        //alert('Please log in to vote!')
     }
   }
   
   render() {
+  
 
     let participants = this.state.participants.map((participant)=> {
         return (
+          
+            
+          
             <div   className="col-4">
+              
               
              <PricingSlot highlighted={participant.voters.includes(this.props.name)} title={participant.name} >
               
@@ -129,11 +138,21 @@ class Election extends React.Component {
         
         <Container className="mt--7" fluid>
           {/* Table */}
+          
          
           <Row>
+          
             <div className="col">
               <Card className="shadow">
                 <CardHeader style={{}} className="border-0"><h1 className="text-center">Head Steward Election</h1><br></br><p className="text-center">Read the Declarations and Click A Candidate to Vote for Him!</p>
+                <Message style={!this.state.failedLogin? {display: 'none'}: {}} negative>
+          <Message.Header>Voting Failed</Message.Header>
+          <p>Please login to be cast a vote.</p>
+         </Message>
+         <Message style={!this.state.failedVoted? {display: 'none'}: {}} negative>
+          <Message.Header>Voting Failed</Message.Header>
+          <p>You can only vote once.</p>
+         </Message>
                 </CardHeader>
                 <PricingTable className="row" highlightColor='#1976D2' >
                     {participants}
