@@ -72,7 +72,7 @@ return newRoutes
     }else {
       console.log(token)
 
-      axios.get(`http://localhost:8080/api/auth/checkToken?token=${token}`)
+      axios.get(`/api/auth/checkToken?token=${token}`)
       .then(res => {
         if(res.status === 200){
           const data = res.data
