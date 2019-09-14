@@ -118,7 +118,7 @@ a:hover {
     width: 160px;
     height: 160px;
     border-radius: 100%;
-    border: solid 8px #321124;
+    border: solid 7px #321124;
 }
 
 
@@ -218,3 +218,38 @@ a:hover {
     transform: translate(-50%, -50%) rotateY(0deg);
     opacity: 1;
 }
+
+.img3 {
+    padding: 15px;
+	
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	background: #b3dced; /* Old Browsers */
+	background: -moz-linear-gradient(left, #b3dced 0%, #29b8e5 50%, #bce0ee 100%); /* FF3.6+ */
+	background: -webkit-gradient(left top, right top, color-stop(0%, #b3dced), color-stop(50%, #29b8e5), color-stop(100%, #bce0ee)); /* Chrome, Safari4+ */
+	background: -webkit-linear-gradient(left, #b3dced 0%, #29b8e5 50%, #bce0ee 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left, #b3dced 0%, #29b8e5 50%, #bce0ee 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left, #b3dced 0%, #29b8e5 50%, #bce0ee 100%); /* IE 10+ */
+	background: linear-gradient(to right, #b3dced 0%, #29b8e5 50%, #bce0ee 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee', GradientType=1 ); /* IE6-9 */
+}
+.img4 {
+    padding: 15px;
+	background-image: url('//fatpony.me/wp-content/uploads/2014/11/stripe-bg-tutorial.jpg');
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee', GradientType=1 ); /* IE6-9 */
+}
+.img5 {
+    padding: 15px;
+	background-image: url('//fatpony.me/wp-content/uploads/2014/11/chevron-bg-tutorial.jpg');
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee', GradientType=1 ); /* IE6-9 */
+}
+
+
+
