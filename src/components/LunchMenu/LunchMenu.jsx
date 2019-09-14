@@ -14,6 +14,7 @@ import {
   import "../../assets/css/lunchMenu.css"
   import axios from "axios";
 
+  
 
 class LunchMenu extends React.Component {
     constructor() {
@@ -22,6 +23,7 @@ class LunchMenu extends React.Component {
             lunchMenu: {images:[], timestamp: ''}
         }
     }
+    
 
     componentWillMount() {
         axios.get('/api/lunchMenus/')
@@ -51,24 +53,24 @@ class LunchMenu extends React.Component {
                       </CardHeader>
                       <div className="row menuWrapper" >
                           <div className="col-4">
-                            <h3>Dinning Hall1</h3>
-                            <img src={this.state.lunchMenu.images[0]}></img>
+                            <h3 style={{paddingLeft: '30%'}}>Upper Dining Hall</h3>
+                            <img className='img3'src={this.state.lunchMenu.images[0]}></img>
                           
                           </div>
                           <div className="col-4">
-                          <h3>Dinning Hall1</h3>
-                          <img src={this.state.lunchMenu.images[1]}></img>
+                          <h3 style={{paddingLeft: '30%'}}>Lower Dining Hall</h3>
+                          <img className='img5'src={this.state.lunchMenu.images[1]}></img>
 
                           </div>
                           <div className="col-4">
-                          <h3>Dinning Hall1</h3>
-                          <img src={this.state.lunchMenu.images[2]}></img>
+                          <h3 style={{paddingLeft: '34%'}}>Student Center</h3>
+                          <img className='img4'src={this.state.lunchMenu.images[2]}></img>
                           </div>
                       </div>
                        </Card>
                    </div>
                   </Row>
-          
+                 
         </Container>
       
             </>
