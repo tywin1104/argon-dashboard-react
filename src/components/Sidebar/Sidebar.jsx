@@ -253,7 +253,7 @@ class Sidebar extends React.Component {
             {/* Navigation */}
             <Nav className="mb-md-3" navbar>
               <NavItem>
-                <NavLink href="#">
+                <NavLink href="mentr123.weebly.com">
                   <i className="ni ni-spaceship" />
                   Support
                 </NavLink>

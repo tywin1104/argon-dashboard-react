@@ -188,7 +188,7 @@ class Index extends React.Component {
 
       <Message style={{margin: '0'}} size="large" color='orange'>
         <Message.Header>{this.state.announcement.content}</Message.Header>
-        <p>Today is Day 5.</p>
+        <p>{this.state.announcement.mini}</p>
       </Message>
       
       <Form style={(!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN') ?  {display: 'none'}: {}}  onSubmit={this.onSubmit} >
@@ -243,7 +243,7 @@ class Index extends React.Component {
             </Col>
           </Row>
           {/* <img style={{width:'100%'}} src="https://cdn1.imggmi.com/uploads/2019/8/24/6e6281565b3a24591bcc81461a0361e6-full.jpg"></img> */}
-          <Image style={{marginTop:"-22%", zIndex:'-1'}} bordered src='https://cdn1.imggmi.com/uploads/2019/8/24/7179d0ee805bd6c1c7df2e1fe3daed02-full.jpg' fluid />
+          <Image style={{marginTop:"-22%", zIndex:'-1'}} bordered src={this.state.announcement.pic} fluid />
         </Container>
       </>
     );

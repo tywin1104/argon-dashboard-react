@@ -144,7 +144,7 @@ class Election extends React.Component {
           
             <div className="col">
               <Card className="shadow">
-                <CardHeader style={{}} className="border-0"><h1 className="text-center">Head Steward Election</h1><br></br><p className="text-center">Read the Declarations and Click A Candidate to Vote for Him!</p>
+                <CardHeader style={{}} className="border-0"><h1 className="text-center">Kahoot During Friday Assembly?</h1><br></br><p className="text-center">Read the Declarations and Click A Choice to Vote for It!</p>
                 <Message style={!this.state.failedLogin? {display: 'none'}: {}} negative>
           <Message.Header>Voting Failed</Message.Header>
           <p>Please login to be cast a vote.</p>

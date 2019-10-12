@@ -32,17 +32,20 @@ import {
 // core components
 import UserHeader from "components/Headers/UserHeader.jsx";
 import axios from "axios";
-
+import { Message } from 'semantic-ui-react'
 
 class Profile extends React.Component {
   constructor() {
     super();
     this.state = {
-      current_user: {points: 0, userType: ''}
+      current_user: {points: 0, userType: '', _id: ''},
+      password: "",
+	goodChange: false
+
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     console.log(this.props.name)
     console.log(`/api/users?name=${this.props.name}`)
     axios.get(`/api/users?name=${this.props.name}`)
@@ -58,10 +61,32 @@ class Profile extends React.Component {
         }
       })
   }
+
+  handleInputChange = (event) => {
+    const { value, name } = event.target;
+    this.setState({
+      [name] : value
+    });
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    axios.patch(`/api/users/${this.state.current_user._id}`, {
+      password: this.state.password
+    })
+    .then(res => {
+      if ( res.status === 200) {
+        console.log("Password changed successfully")
+	 this.setState({goodChange: true})
+      }
+    })
+  }
+
+
   render() {
     return (
       <>
-        <UserHeader />
+        <UserHeader name={this.props.name}/>
         {/* Page content */}
         <Container className="mt--7" fluid>
           <Row>
@@ -108,7 +133,7 @@ class Profile extends React.Component {
                       <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                         <div>
                           <span className="heading">{this.state.current_user.points}</span>
-                          <span className="description">Poiints</span>
+                          <span className="description">Points</span>
                         </div>
                         <div>
                           <span className="heading">{this.state.current_user.level}</span>
@@ -157,50 +182,40 @@ class Profile extends React.Component {
                   </Row>
                 </CardHeader>
                 <CardBody>
-                  <Form>
+                  <Form  onSubmit={this.onSubmit}>
                     <h6 className="heading-small text-muted mb-4">
                       User information
                     </h6>
+  <Message style={!this.state.goodChange? {display: 'none'}: {}} positive>
+          <Message.Header>Change Successful</Message.Header>
+          <p>Logout and Relogin to experience changes.</p>
+         </Message>
                     <div className="pl-lg-4">
                       <Row>
                         <Col lg="6">
                           <FormGroup>
                             <label
                               className="form-control-label"
-                              htmlFor="input-username"
                             >
-                              Username
+                              Password
                             </label>
                             <Input
                               className="form-control-alternative"
-                              defaultValue="lucky.jesse"
-                              id="input-username"
-                              placeholder="Username"
-                              type="text"
+                              name="password"
+                              value={this.state.password} 
+                              type="password" 
+                              onChange={this.handleInputChange}
                             />
-                          </FormGroup>
-                        </Col>
-                        <Col lg="6">
-                          <FormGroup>
-                            <label
-                              className="form-control-label"
-                              htmlFor="input-email"
-                            >
-                              Email address
-                            </label>
-                            <Input
-                              className="form-control-alternative"
-                              id="input-email"
-                              placeholder="jesse@example.com"
-                              type="email"
-                            />
+                            <Button className="my-4" color="primary" type="submit" >
+                              Change password
+                            </Button>
                           </FormGroup>
                         </Col>
                       </Row>
                     </div>
                     
                     <hr className="my-4" />
-                    {/* Description */}
+
                     <h6 className="heading-small text-muted mb-4">About me</h6>
                     <div className="pl-lg-4">
                       <FormGroup>
@@ -226,3 +241,4 @@ class Profile extends React.Component {
 }
 
 export default Profile;
+

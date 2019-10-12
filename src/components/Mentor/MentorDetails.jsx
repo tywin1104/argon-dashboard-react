@@ -45,6 +45,7 @@ class MentorDetails extends React.Component {
             post: null, 
             post_id: '',
             users_info: {},
+	    current_user: {},
             editorState: EditorState.createEmpty(), 
         };
     }
@@ -90,6 +91,15 @@ class MentorDetails extends React.Component {
           }else{
             console.log("Unable to get this post by id")
           }
+axios.get(`/api/users?name=${this.props.name}`)
+        .then(res => {
+          if (res.status === 200) {
+            const user = res.data.users[0]
+            this.setState({current_user: user});
+          }else{
+            console.log("Unable to get all posts")
+          }
+        })
         })
       }
 
@@ -135,11 +145,11 @@ class MentorDetails extends React.Component {
         return this.props.name !== 'Guest'
       }
 
-      removeOnClick(reply_id) {
+      removeOnClick(reply_id,reply_username) {
         axios.delete(`/api/posts/${this.state.post_id}/replies/${reply_id}`)
         .then(res => {
           if (res.status === 200) {
-            this.changeUserPoints(-1)
+            this.changeUserPoints(-1,reply_username)
             axios.get(`/api/posts/${this.state.post_id}`)
             .then(res => {
               if (res.status === 200) {
@@ -155,13 +165,13 @@ class MentorDetails extends React.Component {
     })
   }
 
-  changeUserPoints(delta) {
-    let user_name = this.props.name
+  changeUserPoints(delta,reply_username) {
+    let user_name = reply_username
     axios.get(`/api/users?name=${user_name}`)
     .then(res => {
       if(res.status === 200) {
         let users = res.data.users
-      if(users.length > 0) {
+     if(users.length > 0) {
         let user_found = users[0]
         let user_id = user_found._id
         let new_points = user_found.points + delta
@@ -236,11 +246,14 @@ class MentorDetails extends React.Component {
                     </Comment.Text>
                     <Comment.Actions>
                     <Comment.Action>
-                      <span style={(isSameUser || !isLoggedIn) ? {display: 'none'}: {}}>
+<span style={(isSameUser || !isLoggedIn) ? {display: 'none'}: {}}>
                         <i className="ni ni-like-2"></i>
-                        <span style={{paddingRight: '10px'}}><a>Like</a></span>
+                        <span style={{paddingRight: '10px'}}><a>Love</a></span>
                       </span>
-                      <span style={(!isSameUser || !isLoggedIn) ? {display: 'none'} : {}}><a onClick={()=>this.removeOnClick(reply._id)}>Remove </a></span>
+ <span style={((!isSameUser || !isLoggedIn) && (!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN')) ? {display: 'none'} : {}}><a onClick={()=>this.removeOnClick(reply._id,reply.username)}>Remove </a></span>
+                 <span style={ (!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'MOD') ? {display: 'none'} : {}}><a onClick={()=>this.removeOnClick(reply._id,reply.username)}>Remove </a></span>
+                               
+
 
                     </Comment.Action>
                     </Comment.Actions>
@@ -271,10 +284,9 @@ class MentorDetails extends React.Component {
                          <Comment.Group size='large' style={{maxWidth: '80%'}}>
                           <b className="hrr anim"></b>
                            {comments}
-
-                        <Form reply onSubmit={this.onSubmit(draftToHtml(convertToRaw(editorState.getCurrentContent())))}>
-                          <Editor
-                              placeholder="Enter Text to reply to this post"
+  <Form style={(this.state.post.readOnly || this.state.post.readOnly === true) ? {display: 'none'}: {}} reply onSubmit={this.onSubmit(draftToHtml(convertToRaw(editorState.getCurrentContent())))}>
+                        <Editor 
+                             placeholder="Enter Text to reply to this post"
                               toolbarClassName="toolbarClassName"
                               wrapperClassName="wrapperClassName"
                               editorClassName="editorClassName"
@@ -286,7 +298,7 @@ class MentorDetails extends React.Component {
                             <Alert style={isLoggedIn ? {display: 'none'} : {}} color="dark">
                               You have to login in order to reply to this post
                               </Alert>
-                            <Button disabled={!isLoggedIn}  content='Add Comment'  primary />
+                            <Button disabled={!isLoggedIn || this.state.post.readOnly === true}  content='Add Comment'  primary />
                             </Form>
                         </Comment.Group>
                     </CardBody>

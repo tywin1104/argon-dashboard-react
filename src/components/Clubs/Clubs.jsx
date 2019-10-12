@@ -121,7 +121,7 @@ class Clubs extends React.Component {
         return (
             <List.Item>
                 <List.Content  floated='right'>
-                    <Button disabled={this.props.name === 'Guest' || group.members.includes(this.props.name)}  onClick={()=>this.onJoin(group._id)}>Join</Button>
+                    <Button style={{backgroundColor: '#2185d0'}}  disabled={this.props.name === 'Guest' || group.members.includes(this.props.name)}  onClick={()=>this.onJoin(group._id)}>Join</Button>
                 </List.Content>
                 <List.Content  style={{paddingRight: '2%'}} floated='right'>
                     <Badge style={{height: '3vh', fontSize: '105%' }} color="primary">Current Members: {group.members.length}</Badge>

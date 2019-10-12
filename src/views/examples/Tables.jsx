@@ -182,13 +182,20 @@ changeUserPoints(delta) {
     
 
   render() {
-    let posts = this.state.posts
-    let table_rows = posts.map((post) => {
+ let adminPosts = this.state.posts.filter((post)=> {
+      return post.readOnly;
+    })
+    let normalPosts = this.state.posts.filter((post)=> {
+      return post.readOnly == null || post.readOnly === false;
+    })
+
+    let allPosts = adminPosts.concat(normalPosts)
+    let table_rows = allPosts.map((post) => {
       let isSameUser = post.username === this.props.name
       let isResolved = post.resolved 
-      let adminTrue = this.props.name === 'Admin'
-      
-      // let display;
+      let adminTrue = this.props.name === 'Admin' 
+
+    // let display;
       // if (adminTrue) {
       //   display = (
       //     <div>style={   {display: 'block'} } </div>
@@ -227,7 +234,7 @@ changeUserPoints(delta) {
                           <Media>
                           
                             <span className="mb-0 text-sm">
-                            <Link
+                            <Link style={(post.readOnly) ? {color: "red"}: {}}
                               to={{ pathname: '/admin/mentor/'+post._id}}
                               key={post._id}>
                                 {post.title}
@@ -289,7 +296,36 @@ changeUserPoints(delta) {
                           </DropdownMenu>
                         </UncontrolledDropdown>
                         </div>
+                          <div 
+                      style={  (!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'MOD') ? {display: 'none'}: {}  } >
+                        <UncontrolledDropdown  >
+                          <DropdownToggle
+                            className="btn-icon-only text-light"
+                            href="#pablo"
+                            role="button"
+                            size="sm"
+                            color=""
+                            onClick={e => e.preventDefault()}
+                          >
+                            <i className="fas fa-ellipsis-v" />
+                          </DropdownToggle>
+                          <DropdownMenu className="dropdown-menu-arrow" right>
                         
+                            <DropdownItem
+                            >
+                              <a className="text-danger" onClick={()=>this.onDelete(post._id)}>Remove</a >
+                            </DropdownItem>
+                            
+                            <DropdownItem 
+                            style={(isResolved ) ? {display: 'none'}: {} }
+                            >
+                              <a className="text-success" onClick={()=>this.onChangeStatus(post._id)}>Mark as Resolved </a>
+                            </DropdownItem>
+                            
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                        </div>
+
                       </td>
                     </tr>
       )
@@ -310,7 +346,8 @@ changeUserPoints(delta) {
                   
                   <Button color="primary" disabled={this.props.name === 'Guest'} style={{marginLeft: "auto"}} onClick={this.toggle}>Create New Post</Button>
                   <Button color="danger" style={(!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'ADMIN') ?  {display: 'none'}: {}} >You are an Admin</Button>
- 
+ <Button color="warning" style={(!this.state.current_user || !this.state.current_user.userType || this.state.current_user.userType !== 'MOD') ?  {display: 'none'}: {}} >You are a Moderator</Button>
+  
                   </Row>  
                   <div>
                     
